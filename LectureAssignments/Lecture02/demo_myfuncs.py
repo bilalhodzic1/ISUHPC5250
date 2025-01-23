@@ -1,4 +1,9 @@
 def sqrt(x, kmax):
+    if(x < 0):
+        print("cannot square root negative")
+        return 0
+    elif(x == 0):
+        return 0
     guess = x
     for i in range(kmax):
         guess = 0.5 * (guess + (x/guess))
@@ -7,6 +12,9 @@ def sqrt(x, kmax):
 def factorial(x):
     if(x == 0):
         return 1
+    elif(x < 0):
+        print("cannot factorial negative")
+        return 0
     
     s = 1
     for i in range(1,x):
