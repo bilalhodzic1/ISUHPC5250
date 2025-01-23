@@ -20,14 +20,22 @@ def exp(x):
     e_to_z = 0
     for i in range(10):
         val_to_add = ((z**i)/(factorial(i)))
-        print(f"Iter {i} " + str(val_to_add))
         e_to_z = e_to_z + val_to_add
-    print("e_to_z" + str(e_to_z))
     return (e**x_0) * (e_to_z)
 
+def ln(x, kmax):
+    guess = x
+    for i in range(kmax):
+        guess = guess -1 + (x * exp(-guess))
+    return guess
+
+
+
 z = sqrt(19562, 100)
-#print(z)
+print(f"square root of 19562 = {z}")
 fac = factorial(10)
-#print(fac)
+print(f"factorial of 10 = {fac}")
 expon = exp(5.782)
-print(expon)
+print(f"e^5.782 = {expon}")
+nlog = ln(18, 100)
+print(f"ln(18) = {nlog}")
