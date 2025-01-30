@@ -25,22 +25,33 @@ def sqrt(x, kmax):
 
 def factorial(x):
     """Gets the factorial of input x"""
+    # if 0 return 0
     if x == 0:
         return 0
+    # if negative factorials cannot be defined at negative so return -1 for invalid
     if x < 0:
         print("Factorial of negative is not possible")
         return -1
+    # recursively return factorial. Will go to base case 0 and climb back
     return x * factorial(x - 1)
 
 
 def exp(x):
     """Find e to the power of given input x"""
+    tolerance = 0.00000000000001
+    # declare e as constant value
     e = 2.7182818284590451
+    # get closest into to x
     x_0 = int(round(x))
+    # find z value being number close to 0
     z = x - x_0
+    # conduct taylor expansion to approximate e^x
     e_to_z = 0
     for i in range(10):
         val_to_add = (z**i) / (factorial(i))
+        # Check if value to add is lower than the tolerance
+        if val_to_add < tolerance:
+            break
         e_to_z = e_to_z + val_to_add
     return (e**x_0) * (e_to_z)
 
