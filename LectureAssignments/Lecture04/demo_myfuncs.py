@@ -15,7 +15,7 @@ def sqrt(x, kmax):
         # check relative error is within tolerance. If not return value and stop iteration
         s_n = guess
         s_np1 = 0.5 * (guess + (x / guess))
-        rel_error = (s_n - s_np1) / s_n
+        rel_error = abs(s_n - s_np1) / s_n
         if rel_error < tolerance:
             guess = s_np1
             return guess
