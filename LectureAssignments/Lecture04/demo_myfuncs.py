@@ -23,14 +23,14 @@ def sqrt(x, kmax):
             guess = s_np1
             return guess
         guess = s_np1
-        return guess
+    return guess
 
 
 def factorial(x):
     """Gets the factorial of input x"""
     # if 0 return 0
     if x == 0:
-        return 0
+        return 1
     # if negative factorials cannot be defined at negative so return -1 for invalid
     if x < 0:
         print("Factorial of negative is not possible")
@@ -74,14 +74,4 @@ def ln(x, kmax):
             guess = s_np1
             return guess
         guess = s_np1
-        return guess
-
-
-sqr = sqrt(19562, 100)
-print(f"square root of 19562 = {sqr}")
-fac = factorial(10)
-print(f"factorial of 10 = {fac}")
-expon = exp(5.782)
-print(f"e^5.782 = {expon}")
-nlog = ln(18, 100)
-print(f"ln(18) = {nlog}")
+    return guess
