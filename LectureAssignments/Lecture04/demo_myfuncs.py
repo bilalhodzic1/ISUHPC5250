@@ -1,3 +1,6 @@
+"""Simple math functions module"""
+
+
 def sqrt(x, kmax):
     """Takes the square root of number with newtons method of approximation"""
     # Declare tolerance value
@@ -63,6 +66,7 @@ def ln(x, kmax):
     # set intiial guess to x
     guess = x
     for _ in range(kmax):
+        # Check relative error is less than tolerance and return
         s_n = guess
         s_np1 = guess - 1 + (x * exp(-guess))
         rel_error = (abs(s_np1 - s_n)) / abs(s_n)
