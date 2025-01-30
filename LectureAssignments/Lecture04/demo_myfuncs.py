@@ -57,11 +57,20 @@ def exp(x):
 
 
 def ln(x, kmax):
-    """Finds natural log of given value x using newtons methid"""
+    """Finds natural log of given value x using newtons method"""
+    # set tolerance value
+    tolerance = 0.00000000000001
+    # set intiial guess to x
     guess = x
     for _ in range(kmax):
-        guess = guess - 1 + (x * exp(-guess))
-    return guess
+        s_n = guess
+        s_np1 = guess - 1 + (x * exp(-guess))
+        rel_error = (abs(s_np1 - s_n)) / s_n
+        if rel_error < tolerance:
+            guess = s_np1
+            return guess
+        guess = s_np1
+        return guess
 
 
 sqr = sqrt(19562, 100)
