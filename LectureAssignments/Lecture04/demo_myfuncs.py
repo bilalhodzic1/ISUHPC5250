@@ -53,7 +53,7 @@ def exp(x):
     for i in range(10):
         val_to_add = (z**i) / (factorial(i))
         # Check if value to add is lower than the tolerance
-        if val_to_add < tolerance:
+        if abs(val_to_add) < tolerance:
             break
         e_to_z = e_to_z + val_to_add
     return (e**x_0) * (e_to_z)
