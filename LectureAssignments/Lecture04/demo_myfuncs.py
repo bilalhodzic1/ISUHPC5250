@@ -15,7 +15,7 @@ def sqrt(x, kmax):
         # check relative error is within tolerance. If not return value and stop iteration
         s_n = guess
         s_np1 = 0.5 * (guess + (x / guess))
-        rel_error = abs(s_n - s_np1) / s_n
+        rel_error = abs(s_n - s_np1) / abs(s_n)
         if rel_error < tolerance:
             guess = s_np1
             return guess
@@ -65,7 +65,7 @@ def ln(x, kmax):
     for _ in range(kmax):
         s_n = guess
         s_np1 = guess - 1 + (x * exp(-guess))
-        rel_error = (abs(s_np1 - s_n)) / s_n
+        rel_error = (abs(s_np1 - s_n)) / abs(s_n)
         if rel_error < tolerance:
             guess = s_np1
             return guess
