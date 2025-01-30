@@ -53,8 +53,8 @@ def ln(x, kmax):
     return guess
 
 
-z = sqrt(19562, 100)
-print(f"square root of 19562 = {z}")
+sqr = sqrt(19562, 100)
+print(f"square root of 19562 = {sqr}")
 fac = factorial(10)
 print(f"factorial of 10 = {fac}")
 expon = exp(5.782)
