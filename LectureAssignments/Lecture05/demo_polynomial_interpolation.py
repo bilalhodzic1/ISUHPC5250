@@ -14,6 +14,8 @@ def GaussianElimination(A, b):
     """
     # Append b to A
     x = np.append(A, b, axis=1)
+    print("Original Ab matrix")
+    print(x)
     # Get rows and cols for looping
     num_rows = x.shape[0]
     num_cols = x.shape[1]
@@ -32,7 +34,8 @@ def GaussianElimination(A, b):
             # occurs due to
             x[j] = np.round(x[j] - row_needed, 17)
     # determine number of variables needed to complete the problem and set an array of all none
-    #  print(x)
+    print("Triangle matrix")
+    print(x)
     num_vars = A.shape[1]
     variables = [None] * num_vars
     for i in range(num_vars):
@@ -67,6 +70,7 @@ def GaussianElimination(A, b):
         else:
             output_string += f"{variables[i]}x^{current_exp} + "
         current_exp -= 1
+    print("Output Function")
     print(output_string)
     return variables
 
