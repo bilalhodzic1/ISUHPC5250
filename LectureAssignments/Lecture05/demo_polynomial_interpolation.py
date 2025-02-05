@@ -31,7 +31,6 @@ def GaussianElimination(A, b):
             # added round of result to 10 decimal places to avoid this
             # occurs due to
             x[j] = np.round(x[j] - row_needed, 17)
-    print(x)
     # determine number of variables needed to complete the problem and set an array of all none
     #  print(x)
     num_vars = A.shape[1]
@@ -92,5 +91,23 @@ test_arr = np.array(
 test_vector = np.array([[np.cos(x_0)], [np.cos(x_1)], [np.cos(x_2)], [np.cos(x_3)]])
 # test_vector = np.array([[6.0], [3.0], [14.0], [8.0]])
 
-print(GaussianElimination(test_arr, test_vector))
-print(solve(test_arr, test_vector))
+solution = GaussianElimination(test_arr, test_vector)
+# print(solve(test_arr, test_vector))
+max_error = -1
+vals_to_test = []
+vals_to_test.append(x_0)
+vals_to_test.append(x_1)
+vals_to_test.append(x_2)
+vals_to_test.append(x_3)
+for i in range(len(vals_to_test)):
+    original_func = np.cos(vals_to_test[i])
+    new_func = (
+        solution[0] * (vals_to_test[i] ** 3)
+        + solution[1] * (vals_to_test[i] ** 2)
+        + solution[2] * (vals_to_test[i])
+        + solution[3]
+    )
+    if abs(new_func - original_func) > max_error:
+        max_error = abs(new_func - original_func)
+
+print(f"Max error: {max_error}")
