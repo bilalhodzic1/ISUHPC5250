@@ -3,6 +3,7 @@ Lecture 5 assignment. Gaussian method
 """
 
 import numpy as np
+from numpy.linalg import solve
 
 np.set_printoptions(linewidth=1000)
 
@@ -29,8 +30,10 @@ def GaussianElimination(A, b):
             # subtraction resulted in extremely small decimals sometimes instead of 0
             # added round of result to 10 decimal places to avoid this
             # occurs due to
-            x[j] = np.round(x[j] - row_needed, 10)
+            x[j] = np.round(x[j] - row_needed, 17)
+    print(x)
     # determine number of variables needed to complete the problem and set an array of all none
+    #  print(x)
     num_vars = A.shape[1]
     variables = [None] * num_vars
     for i in range(num_vars):
@@ -66,7 +69,7 @@ def GaussianElimination(A, b):
             output_string += f"{variables[i]}x^{current_exp} + "
         current_exp -= 1
     print(output_string)
-    return output_string
+    return variables
 
 
 x_0 = -0.1
@@ -82,10 +85,12 @@ test_arr = np.array(
         [1.0, x_3, x_3**2, x_3**3],
     ]
 )
+
 # test_arr = np.array(
 #    [[1.0, 2.0, -1.0, 1.0], [-1, 1, 2, -1], [2, -1, 2, 2], [1, 1, -1, 2]]
 # )
 test_vector = np.array([[np.cos(x_0)], [np.cos(x_1)], [np.cos(x_2)], [np.cos(x_3)]])
 # test_vector = np.array([[6.0], [3.0], [14.0], [8.0]])
 
-GaussianElimination(test_arr, test_vector)
+print(GaussianElimination(test_arr, test_vector))
+print(solve(test_arr, test_vector))
