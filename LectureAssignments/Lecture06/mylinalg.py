@@ -106,6 +106,8 @@ if __name__ == "__main__":
         for cof_val in range(5):
             sum += (nodex[x_val] ** cof_val) * coeffecients[cof_val]
         dif_y_vals.append(sum)
-
+    plt.plot(nodex, result, "ro")
     plt.plot(nodex, dif_y_vals)
+    plt.xlabel("X-axis")
+    plt.ylabel("Y-axis")
     plt.show()
