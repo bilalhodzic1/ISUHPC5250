@@ -72,6 +72,7 @@ def GaussianElimination(A, b):
 
 def LeastSquares(x, f, k):
     """Function for finding coeffecients to a polynomial approx using LeastSquares"""
+    # declare A as the coeffecient matrix
     A = []
     for i in enumerate(x):
         row_vals = []
@@ -79,33 +80,40 @@ def LeastSquares(x, f, k):
             row_vals.append(i[1] ** j)
         A.append(row_vals)
     A = np.array(A)
+    # Create the f vector from the reuslts
     f_vector = []
     for i in enumerate(f):
         f_vector.append([i[1]])
     f_vector = np.array(f_vector)
+    # Transpose A
     A_T = np.transpose(A)
-
+    # compute left side and right side of least squares equation and make sure they are floats
     left_result = np.dot(A_T, A)
     right_result = np.dot(A_T, f_vector)
     left_result = left_result * 1.0
     right_result = right_result * 1.0
+    # conduct GaussianElimination to get the final results
     coeffecients_vector = GaussianElimination(left_result, right_result)
     print(np.array(coeffecients_vector))
     return np.round(coeffecients_vector, 10)
 
 
 if __name__ == "__main__":
+    # Create X and Y coords for cosine within range
     nodex = np.linspace(-np.pi, np.pi, 51)
     result = np.array(list(map(np.cos, nodex)))
     # nodex = np.array([0, 1, 2, 3])
     # result = np.array([3, 0, 1, 3])
+    # Conduct least squares to find best fit polynomial
     coeffecients = LeastSquares(nodex, result, 5)
     dif_y_vals = []
+    # Evaluate values of x at this polynomial
     for x_val in range(len(nodex)):
         sum = 0.0
         for cof_val in range(5):
             sum += (nodex[x_val] ** cof_val) * coeffecients[cof_val]
         dif_y_vals.append(sum)
+    # Plot the original values as points and the polynomial as the fit line
     plt.plot(nodex, result, "ro")
     plt.plot(nodex, dif_y_vals)
     plt.xlabel("X-axis")
