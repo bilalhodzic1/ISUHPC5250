@@ -74,3 +74,17 @@ def GaussianElimination(A, b):
 
 def LeastSquares(x, f, k):
     """Function for finding coeffecients to a polynomial approx using LeastSquares"""
+    A = []
+    for i in enumerate(x):
+        row_vals = []
+        for j in range(k):
+            row_vals.append(i[1] ** j)
+        A.append(row_vals)
+    A = np.array(A)
+    print(A)
+
+
+if __name__ == "__main__":
+    nodex = np.linspace(-np.pi, np.pi, 51)
+    result = np.array(list(map(np.cos, nodex)))
+    coeffecients = LeastSquares(nodex, result, 5)
