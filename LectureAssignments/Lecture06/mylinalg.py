@@ -4,6 +4,8 @@ Linear algebra module for doing some linear algebra
 
 import numpy as np
 
+np.set_printoptions(linewidth=1000)
+
 
 def GaussianElimination(A, b):
     """
@@ -81,7 +83,14 @@ def LeastSquares(x, f, k):
             row_vals.append(i[1] ** j)
         A.append(row_vals)
     A = np.array(A)
-    print(A)
+    f_vector = []
+    for i in enumerate(f):
+        f_vector.append([i[1]])
+    f_vector = np.array(f_vector)
+    A_T = np.transpose(A)
+    left_result = np.dot(A_T, A)
+    right_result = np.dot(A_T, f_vector)
+    print(right_result)
 
 
 if __name__ == "__main__":
