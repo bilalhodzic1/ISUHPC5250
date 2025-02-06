@@ -2,6 +2,7 @@
 Linear algebra module for doing some linear algebra
 """
 
+import matplotlib.pyplot as plt
 import numpy as np
 
 np.set_printoptions(linewidth=1000)
@@ -13,8 +14,6 @@ def GaussianElimination(A, b):
     """
     # Append b to A
     x = np.append(A, b, axis=1)
-    print("Original Ab matrix")
-    print(x)
     # Get rows and cols for looping
     num_rows = x.shape[0]
     num_cols = x.shape[1]
@@ -33,8 +32,6 @@ def GaussianElimination(A, b):
             # occurs due to
             x[j] = np.round(x[j] - row_needed, 17)
     # determine number of variables needed to complete the problem and set an array of all none
-    print("Triangle matrix")
-    print(x)
     num_vars = A.shape[1]
     variables = [None] * num_vars
     for i in range(num_vars):
@@ -69,8 +66,7 @@ def GaussianElimination(A, b):
         else:
             output_string += f"{variables[i]}x^{current_exp} + "
         current_exp -= 1
-    print("Output Function")
-    print(output_string)
+    # print(output_string)
     return variables
 
 
@@ -88,12 +84,28 @@ def LeastSquares(x, f, k):
         f_vector.append([i[1]])
     f_vector = np.array(f_vector)
     A_T = np.transpose(A)
+
     left_result = np.dot(A_T, A)
     right_result = np.dot(A_T, f_vector)
-    print(right_result)
+    left_result = left_result * 1.0
+    right_result = right_result * 1.0
+    coeffecients_vector = GaussianElimination(left_result, right_result)
+    print(np.array(coeffecients_vector))
+    return np.round(coeffecients_vector, 10)
 
 
 if __name__ == "__main__":
     nodex = np.linspace(-np.pi, np.pi, 51)
     result = np.array(list(map(np.cos, nodex)))
+    # nodex = np.array([0, 1, 2, 3])
+    # result = np.array([3, 0, 1, 3])
     coeffecients = LeastSquares(nodex, result, 5)
+    dif_y_vals = []
+    for x_val in range(len(nodex)):
+        sum = 0.0
+        for cof_val in range(5):
+            sum += (nodex[x_val] ** cof_val) * coeffecients[cof_val]
+        dif_y_vals.append(sum)
+
+    plt.plot(nodex, dif_y_vals)
+    plt.show()
