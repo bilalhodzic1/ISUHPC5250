@@ -16,5 +16,11 @@ int main() {
     }
   }
   printf("End result is %d\n", factorial);
+
+  printf("Enter a real number to take e to power of \n");
+  float x;
+  scanf("%f", &x);
+  float result = exp(x);
+  printf("Result of e^%f : %f\n", x, result);
   return 0;
 }
