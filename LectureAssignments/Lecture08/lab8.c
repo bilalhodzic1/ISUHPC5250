@@ -1,8 +1,15 @@
 #include "lab8.h"
+#include <stdio.h>
 
 int main(int argc, char *argv[]) {
   printf("%d\n", factorial(10));
   printf("%lf\n", myexp(2.12));
+  int num_vals;
+  float *points_to_test = gen_set_of_points(0, .02, 1, &num_vals);
+  for (int i = 0; i < num_vals; i++) {
+    printf("Value %d: %f\n", i, points_to_test[i]);
+  }
+
   return 0;
 }
 
@@ -40,4 +47,20 @@ double myexp(double x) {
     e_to_z += value_to_add;
   }
   return pow(e, x_0) * e_to_z;
+}
+float *gen_set_of_points(float start_val, float interval, float end_val,
+                         int *arr_size) {
+  float numvals = (end_val - start_val) / interval;
+  if (numvals == (int)numvals) {
+    *arr_size = (int)numvals + 1;
+    float *range_of_values = malloc(sizeof(float) * numvals);
+    int i;
+    for (i = 0; i < numvals + 1; i++) {
+      range_of_values[i] = start_val + interval * i;
+    }
+    return range_of_values;
+  } else {
+    printf("Bad interval value!");
+    return NULL;
+  }
 }
