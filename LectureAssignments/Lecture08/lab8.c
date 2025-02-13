@@ -6,10 +6,13 @@ int main(int argc, char *argv[]) {
   printf("%lf\n", myexp(2.12));
   int num_vals;
   float *points_to_test = gen_set_of_points(0, .02, 1, &num_vals);
-  for (int i = 0; i < num_vals; i++) {
-    printf("Value %d: %f\n", i, points_to_test[i]);
-  }
+  FILE *output_file = fopen("output.data", "w");
 
+  for (int i = 0; i < num_vals; i++) {
+    fprintf(output_file, "(%f,%lf)\n", points_to_test[i],
+            myexp((double)points_to_test[i]));
+  }
+  fclose(output_file);
   return 0;
 }
 
