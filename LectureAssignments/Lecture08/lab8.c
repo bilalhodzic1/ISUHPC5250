@@ -2,16 +2,23 @@
 #include <stdio.h>
 
 int main(int argc, char *argv[]) {
+  // Print factorial
   printf("%d\n", factorial(10));
+  // Print test exp
   printf("%lf\n", myexp(2.12));
+
+  // Generate range of values from 0 to 1 with .02 interval
   int num_vals;
   float *points_to_test = gen_set_of_points(0, .02, 1, &num_vals);
-  FILE *output_file = fopen("output.data", "w");
 
+  // Start output file
+  FILE *output_file = fopen("output.data", "w");
+  // Write exp values to output
   for (int i = 0; i < num_vals; i++) {
     fprintf(output_file, "(%f,%lf)\n", points_to_test[i],
             myexp((double)points_to_test[i]));
   }
+  // close file
   fclose(output_file);
   return 0;
 }
