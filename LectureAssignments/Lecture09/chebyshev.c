@@ -1,4 +1,5 @@
 #include "chebyshev.h"
+#include <stdlib.h>
 int main(int argc, char *argv[]) {
   int n_max = 5;
   int i;
@@ -15,10 +16,6 @@ int main(int argc, char *argv[]) {
     scanf("%f", &coefficients[i]);
   }
 
-  for (i = 0; i < degree; i++) {
-    printf("%f\n", coefficients[i]);
-  }
-
   int num_points;
   float *x_points = gen_set_of_points(-1, .1, 1, &num_points);
   float y_points[num_points];
@@ -32,6 +29,7 @@ int main(int argc, char *argv[]) {
   // close file
   fclose(output_file);
 
+  system("python3 plot_output_data.py");
   return 0;
 }
 
@@ -61,7 +59,7 @@ void evaluate_polynomial(float x_points[], float coeffecients[],
               5 * x_points[i];
         break;
       }
-      y_points[i] += phi;
+      y_points[i] += phi * coeffecients[k];
     }
   }
 }
@@ -76,7 +74,7 @@ float *gen_set_of_points(float start_val, float interval, float end_val,
   if (numvals == (int)numvals) {
     // Create array of size numvals
     *arr_size = (int)numvals + 1;
-    float *range_of_values = malloc(sizeof(float) * numvals);
+    float *range_of_values = malloc(sizeof(float) * numvals + 1);
     int i;
     // Generate values and populate array
     for (i = 0; i < numvals + 1; i++) {
