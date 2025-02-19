@@ -1,6 +1,4 @@
 #include "chebyshev.h"
-#include <stdio.h>
-#include <stdlib.h>
 int main(int argc, char *argv[]) {
   int n_max = 5;
   int i;
@@ -22,11 +20,51 @@ int main(int argc, char *argv[]) {
   }
 
   int num_points;
-  float *points = gen_set_of_points(-1, .1, 1, &num_points);
+  float *x_points = gen_set_of_points(-1, .1, 1, &num_points);
+  float y_points[num_points];
+  evaluate_polynomial(x_points, coefficients, y_points, degree, num_points);
+
+  FILE *output_file = fopen("output.data", "w");
+  // Write values to output
+  for (int i = 0; i < num_points; i++) {
+    fprintf(output_file, "(%f,%lf)\n", x_points[i], y_points[i]);
+  }
+  // close file
+  fclose(output_file);
 
   return 0;
 }
 
+void evaluate_polynomial(float x_points[], float coeffecients[],
+                         float y_points[], int degree, int num_points) {
+  int i;
+  for (i = 0; i < num_points; i++) {
+    y_points[i] = coeffecients[0];
+    int k;
+    double phi;
+    for (k = 1; k <= degree; k++) {
+      switch (k) {
+      case 1:
+        phi = x_points[i];
+        break;
+      case 2:
+        phi = 2 * pow(x_points[i], 2) - 1;
+        break;
+      case 3:
+        phi = 4 * pow(x_points[i], 3) - (3 * x_points[i]);
+        break;
+      case 4:
+        phi = 8 * pow(x_points[i], 4) - 8 * pow(x_points[i], 2) + 1;
+        break;
+      case 5:
+        phi = 16 * pow(x_points[i], 5) - 20 * pow(x_points[i], 3) +
+              5 * x_points[i];
+        break;
+      }
+      y_points[i] += phi;
+    }
+  }
+}
 float *gen_set_of_points(float start_val, float interval, float end_val,
                          int *arr_size) {
   // Generate a set of points from start to end at interval
