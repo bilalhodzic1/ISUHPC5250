@@ -20,3 +20,4 @@ typedef struct quadrilateral {
 void quad_area(quadrilateral_t *quad);
 void quad_perimeter(quadrilateral_t *quad);
 void compute_angles(quadrilateral_t *quad);
+void print_details(quadrilateral_t quad);
