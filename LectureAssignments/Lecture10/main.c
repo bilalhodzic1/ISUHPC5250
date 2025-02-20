@@ -9,7 +9,9 @@ int main(int argc, char *argv[]) {
   scanf("(%f,%f)", &quad.node4.x, &quad.node4.y);
 
   quad_perimeter(&quad);
+  quad_area(&quad);
   print_details(quad);
+
   return 0;
 }
 
@@ -19,4 +21,5 @@ void print_details(quadrilateral_t quad) {
   printf("Node 3: (%f, %f)\n", quad.node3.x, quad.node3.y);
   printf("Node 4: (%f, %f)\n", quad.node4.x, quad.node4.y);
   printf("Perimeter : %lf\n", quad.perimeter);
+  printf("Area : %lf\n", quad.area);
 }
