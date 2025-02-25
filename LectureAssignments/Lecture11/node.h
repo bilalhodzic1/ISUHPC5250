@@ -2,7 +2,7 @@
 #define __NODE_H__
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <time.h>
 typedef struct node node_t;
 struct node {
   int position;
@@ -11,7 +11,7 @@ struct node {
 };
 
 int get_num_of_nodes();
-void generate_list(node_t **head, const int num);
+void generate_list(node_t **head, const int num_nodes);
 void print(const int forward, const node_t *head);
 void print_list(const node_t *head);
 void print_list_reverse(const node_t *head);
