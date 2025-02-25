@@ -1,5 +1,7 @@
 #ifndef __NODE_H__
 #define __NODE_H__
+#include <stdio.h>
+#include <stdlib.h>
 
 typedef struct node node_t;
 struct node {
