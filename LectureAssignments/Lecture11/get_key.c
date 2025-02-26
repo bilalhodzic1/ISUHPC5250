@@ -1,8 +1,8 @@
 #include "node.h"
 
 char get_key() {
-  printf("Enter character to find in list: \n");
-  char search;
-  scanf("%c", &search);
-  return search;
+  printf("Enter character to find in list (0 to quit): ");
+  char search_char;
+  scanf(" %c", &search_char);
+  return search_char;
 }
