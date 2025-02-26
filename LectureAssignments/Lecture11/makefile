@@ -19,7 +19,7 @@ main.exe : $(OBJECTS)
 	$(CC) $(FFLAGS) -c $<
 
 clean:
-	rm -f $(OBJECTS)
+	rm -f $(OBJECTS) main.exe
 
 help:
 	@echo " Valid targets :"
