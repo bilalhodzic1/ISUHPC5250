@@ -5,13 +5,12 @@ int main(int argc, char *argv[]) {
   generate_list(&head, num_nodes);
   print(0, head);
   print(1, head);
-  delete_list(&head);
+  printf("\n");
   char user_input = get_key();
-  printf("%c\n", user_input);
   while (user_input != '0') {
     search_list(head, user_input);
     user_input = get_key();
   }
-
+  delete_list(&head);
   return 0;
 }

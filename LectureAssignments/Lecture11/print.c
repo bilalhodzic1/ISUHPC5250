@@ -18,7 +18,7 @@ void print(const int forward, const node_t *head) {
     print_list_reverse(head);
     break;
   }
-  printf("\n");
+  printf("\n\n");
 }
 void print_list(const node_t *head) {
   print_detail_line(head->position, head->letter, head, head->next);
