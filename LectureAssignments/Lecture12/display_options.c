@@ -1,4 +1,11 @@
 #include "node.h"
+
+/**
+ * @brief  Function will display options to the user that they can select to
+ * perform different operations relating to the stack
+ *
+ * @return no return value, function is void
+ */
 void display_options() {
   printf("\n 0 - List Options ");
   printf("\n 1 - Push (a single node)");
