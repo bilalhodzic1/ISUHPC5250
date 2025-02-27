@@ -18,6 +18,7 @@ struct node {
 };
 
 void execute_option(int option);
+purchase_order_t create_new_po();
 int query_option();
 void delete_stack(node_t **top);
 void display_options();

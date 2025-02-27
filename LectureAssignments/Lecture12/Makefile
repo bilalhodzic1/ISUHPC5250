@@ -8,7 +8,8 @@ OBJECTS = main.o \
 					option.o \
 					peek.o \
 					pop.o \
-					push.o 
+					push.o \
+					create_new_po.o 
 LFLAGS = 
 
 .PHONY : clean help
@@ -26,11 +27,12 @@ clean:
 help:
 	@echo " Valid targets :"
 	@echo " main.exe"
-	@echo " delete_stack.o" 
+	@echo " delete_stack.o"
 	@echo	" display_options.o" 
 	@echo	" display_stack.o" 
 	@echo	" get_stack_size.o" 
 	@echo	" option.o" 
 	@echo	" peek.o" 
 	@echo	" pop.o" 
-	@echo	" push.o" 
+	@echo	" push.o"
+	@echo " create_new_po.o"
