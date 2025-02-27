@@ -8,6 +8,8 @@
  */
 purchase_order_t pop(node_t **top) {
   purchase_order_t po_from_top = (*top)->po;
+  node_t *temp = *top;
   (*top) = (*top)->next;
+  free(temp);
   return po_from_top;
 }
