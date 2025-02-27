@@ -9,7 +9,7 @@ int get_stack_size(node_t **top) {
   if ((*top) == NULL) {
     return 0;
   } else {
-    int count = 1;
+    int count = 0;
     node_t *tracer = *top;
     while (tracer != NULL) {
       tracer = tracer->next;
