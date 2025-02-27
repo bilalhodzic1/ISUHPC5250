@@ -23,7 +23,8 @@ purchase_order_t create_new_po() {
   printf("Enter the total cost of the PO: \n");
   scanf("%lf", &new_po.po_amount);
   flush_new_line_chars();
-  printf("Enter a brief description of the PO:\n");
+  printf("Enter a brief description of the PO (Max of %d characters!):\n",
+         (int)sizeof(new_po.po_description));
   fgets(new_po.po_description, sizeof(new_po.po_description), stdin);
   return new_po;
 }

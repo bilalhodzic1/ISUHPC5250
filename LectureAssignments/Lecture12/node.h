@@ -8,7 +8,7 @@
 typedef struct purchase_order {
   int po_number;
   double po_amount;
-  char po_description[250];
+  char po_description[50];
 } purchase_order_t;
 
 typedef struct node node_t;
