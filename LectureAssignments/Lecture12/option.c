@@ -12,8 +12,8 @@ void execute_option(int option, node_t **top) {
     return;
   }
   purchase_order_t new_po;
-  purchase_order_t popped_po;
-  int size_of_stack = 0;
+  node_t *popped_po;
+  int size_of_stack = get_stack_size(top);
   switch (option) {
   case 0:
     display_options();
@@ -23,12 +23,21 @@ void execute_option(int option, node_t **top) {
     push(top, new_po);
     break;
   case 2:
+    if (size_of_stack == 0) {
+      printf("Nothing in stack\n");
+      break;
+    }
     popped_po = pop(top);
-    printf("Purchase order %d has been removed!\n", popped_po.po_number);
+    printf("Purchase order %d has been removed!\n", popped_po->po.po_number);
     break;
   case 3:
+    if (size_of_stack == 0) {
+      printf("Nothing in stack\n");
+      break;
+    }
     popped_po = peek(top);
-    printf("Purchase order %d is next for processing!\n", popped_po.po_number);
+    printf("Purchase order %d is next for processing!\n",
+           popped_po->po.po_number);
     break;
   case 4:
     display_stack(top);
@@ -38,6 +47,7 @@ void execute_option(int option, node_t **top) {
     printf("The stack currently holds %d purchase orders\n", size_of_stack);
     break;
   case 6:
+    delete_stack(top);
     break;
   }
 }
