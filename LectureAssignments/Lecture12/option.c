@@ -1,12 +1,22 @@
 #include "node.h"
-
+/**
+ * @brief gets an input from the user to use as an option
+ *
+ * @return the option entered by the user as an int
+ */
 int query_option() {
   int option = 0;
   printf("Enter option: \n");
   scanf("%d", &option);
   return option;
 }
-
+/**
+ * @brief executes code based on an option passed in by the user
+ *
+ * @param  option the option the user entered. A number 0-6
+ * @param  top a reference to the node at the top of the stack
+ * @return nothing, the function is void
+ */
 void execute_option(int option, node_t **top) {
   if (option < 0 || option > 6) {
     return;
