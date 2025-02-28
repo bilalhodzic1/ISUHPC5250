@@ -17,7 +17,7 @@ struct node {
   node_t *next;
 };
 
-void execute_option(int option);
+void execute_option(int option, node_t **top);
 purchase_order_t create_new_po();
 int query_option();
 void delete_stack(node_t **top);
