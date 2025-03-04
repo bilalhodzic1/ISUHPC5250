@@ -3,7 +3,8 @@ FFLAGS = -O3 -Wall
 OBJECTS = main.o \
 					matrix.o \
 					least_squares.o \
-					generate_points.o
+					generate_points.o \
+					evaluate_polynomial.o
 LFLAGS = 
 
 .PHONY : clean help
@@ -24,3 +25,4 @@ help:
 	@echo " matrix.o"
 	@echo " least_squares.o"
 	@echo " generate_points.o"
+	@echo " evaluate_polynomial.o"

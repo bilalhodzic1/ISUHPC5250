@@ -12,9 +12,10 @@ int main(int argc, char *argv[]) {
 
   vector coeffecients_least_squares_5 =
       least_squares(&x_points_vector, &f_points_vector, 5);
-  print_vector(&coeffecients_least_squares_5);
   vector coeffecients_poly_interp =
       least_squares(&x_points_vector, &f_points_vector, num_points - 1);
-  print_vector(&coeffecients_poly_interp);
+  vector y_points_least_squares = evaluate_polynomial(
+      &x_points_vector, &coeffecients_least_squares_5, 5, num_points);
+  print_vector(&y_points_least_squares);
   return 0;
 }
