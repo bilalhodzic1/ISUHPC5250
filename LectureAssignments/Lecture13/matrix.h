@@ -43,4 +43,6 @@ void print_scalar_full(const double *z, char *varname);
 vector matrix_vector_mult(const matrix *A, const vector *x);
 vector solve(const matrix *A, const vector *b);
 vector least_squares(const vector *x, const vector *f, const int k);
+double *gen_set_of_points(float start_val, float interval, float end_val,
+                          int *arr_size);
 #endif

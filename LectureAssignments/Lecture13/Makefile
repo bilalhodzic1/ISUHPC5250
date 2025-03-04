@@ -2,7 +2,8 @@ CC  = gcc
 FFLAGS = -O3 -Wall
 OBJECTS = main.o \
 					matrix.o \
-					least_squares.o
+					least_squares.o \
+					generate_points.o
 LFLAGS = 
 
 .PHONY : clean help
@@ -22,3 +23,4 @@ help:
 	@echo " main.exe"
 	@echo " matrix.o"
 	@echo " least_squares.o"
+	@echo " generate_points.o"
