@@ -14,16 +14,17 @@ matrix transpose_matrix(matrix *mat) {
 vector least_squares(const vector *x, const vector *f, const int k) {
   matrix A = new_matrix(x->size, k + 1);
   int i, j;
-  for (i = 0; i <= x->size; i++) {
+  for (i = 1; i <= x->size; i++) {
     for (j = 0; j <= k; j++) {
-      mget(A, i, j) = pow(vgetp(x, i), j);
+      mget(A, i, j + 1) = pow(vgetp(x, i), j);
     }
   }
+  print_matrix(&A);
   if (x->size == k) {
     return solve(&A, f);
   } else {
     matrix A_T = new_matrix(A.cols, A.rows);
-    matrix to_solve_matrix = matrix_dot_mult(&A_T, &A);
+    matrix to_solve_matrix = matrix_mult(&A_T, &A);
     vector right_result = matrix_vector_mult(&A_T, f);
     return solve(&to_solve_matrix, &right_result);
   }
