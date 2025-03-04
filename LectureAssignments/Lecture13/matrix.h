@@ -45,4 +45,6 @@ vector solve(const matrix *A, const vector *b);
 vector least_squares(const vector *x, const vector *f, const int k);
 double *gen_set_of_points(float start_val, float interval, float end_val,
                           int *arr_size);
+vector evaluate_polynomial(vector *x_points, vector *coeffecients, int degree,
+                           int num_points);
 #endif

@@ -19,7 +19,8 @@ vector least_squares(const vector *x, const vector *f, const int k) {
       mget(A, i, j + 1) = pow(vgetp(x, i), j);
     }
   }
-  if (x->size == k) {
+
+  if (x->size == k + 1) {
     return solve(&A, f);
   } else {
     matrix A_T = transpose_matrix(&A);
