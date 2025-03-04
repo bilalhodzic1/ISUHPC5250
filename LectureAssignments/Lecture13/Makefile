@@ -1,7 +1,8 @@
 CC  = gcc
 FFLAGS = -O3 -Wall
 OBJECTS = main.o \
-					matrix.o 
+					matrix.o \
+					least_squares.o
 LFLAGS = 
 
 .PHONY : clean help
@@ -20,3 +21,4 @@ help:
 	@echo " Valid targets :"
 	@echo " main.exe"
 	@echo " matrix.o"
+	@echo " least_squares.o"

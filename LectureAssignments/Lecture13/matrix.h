@@ -1,6 +1,11 @@
 #ifndef __MATRIX_H__
 #define __MATRIX_H__
 
+#include <assert.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 typedef struct matrix matrix;
 struct matrix {
   int rows;
@@ -37,5 +42,5 @@ double vector_dot_mult(const vector *x, const vector *y);
 void print_scalar_full(const double *z, char *varname);
 vector matrix_vector_mult(const matrix *A, const vector *x);
 vector solve(const matrix *A, const vector *b);
-
+vector least_squares(const vector *x, const vector *f, const int k);
 #endif
