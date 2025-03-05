@@ -8,9 +8,11 @@ int main(int argc, char *argv[]) {
   int i;
   for (i = 1; i <= num_points; i++) {
     vget(x_points_vector, i) = x_points[i - 1];
+    printf("SIN EVAL: %lf\n", sin(2 * M_PI * x_points[i - 1]));
     vget(f_points_vector, i) = sin(2 * M_PI * x_points[i - 1]);
   }
 
+  print_vector(&f_points_vector);
   vector coeffecients_least_squares_5 =
       least_squares(&x_points_vector, &f_points_vector, 5);
   vector coeffecients_poly_interp =
@@ -31,5 +33,7 @@ int main(int argc, char *argv[]) {
             vget(y_points_poly_interp, i));
   }
   fclose(output_file_2);
+
+  system("python3 plot_output_data.py");
   return 0;
 }
