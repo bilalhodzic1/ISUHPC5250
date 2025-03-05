@@ -19,5 +19,5 @@ with open("output2.data", "r") as file:
 
 
 plt.plot(xarr, yarr)
-# plt.plot(xarr2, yarr2)
+plt.plot(xarr2, yarr2)
 plt.show()
