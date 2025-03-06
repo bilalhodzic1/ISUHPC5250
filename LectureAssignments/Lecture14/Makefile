@@ -4,7 +4,8 @@ OBJECTS = main.o \
 					matrix.o \
 					power_iteration.o \
 					inverse_power_iteration.o \
-					rayleigh_quotient_iteration.o 
+					rayleigh_quotient_iteration.o \
+					fill_random_vector.o
 LFLAGS = 
 
 .PHONY : clean help
@@ -23,3 +24,7 @@ help:
 	@echo " Valid targets :"
 	@echo " main.exe"
 	@echo " matrix.o"
+	@echo " power_iteration.o"
+	@echo " inverse_power_iteration.o"
+	@echo " rayleigh_quotient_iteration.o"
+	@echi " fill_random_vector.o"
