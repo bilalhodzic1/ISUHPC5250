@@ -1,7 +1,10 @@
 CC  = gcc
 FFLAGS = -O3 -Wall
 OBJECTS = main.o \
-					matrix.o
+					matrix.o \
+					power_iteration.o \
+					inverse_power_iteration.o \
+					rayleigh_quotient_iteration.o 
 LFLAGS = 
 
 .PHONY : clean help
