@@ -44,4 +44,5 @@ void print_scalar_full(const double *z, char *varname);
 vector matrix_vector_mult(const matrix *A, const vector *x);
 vector solve(const matrix *A, const vector *b);
 void fill_random_vector(vector *v);
+void normalize_vector(vector *v);
 #endif

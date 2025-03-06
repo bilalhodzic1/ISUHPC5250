@@ -5,7 +5,8 @@ OBJECTS = main.o \
 					power_iteration.o \
 					inverse_power_iteration.o \
 					rayleigh_quotient_iteration.o \
-					fill_random_vector.o
+					fill_random_vector.o \
+					normalize_vector.o
 LFLAGS = 
 
 .PHONY : clean help
@@ -27,4 +28,5 @@ help:
 	@echo " power_iteration.o"
 	@echo " inverse_power_iteration.o"
 	@echo " rayleigh_quotient_iteration.o"
-	@echi " fill_random_vector.o"
+	@echo " fill_random_vector.o"
+	@echo " normalize_vector.o"
