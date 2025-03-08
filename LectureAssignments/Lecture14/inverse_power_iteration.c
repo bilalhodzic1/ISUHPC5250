@@ -10,14 +10,14 @@ double inverse_power_iteration(matrix *A, double mu) {
   int m_stop = 0;
   int k = 0;
   int max_iters = 100;
-  matrix mu_I = new_matrix(A->rows, A->cols);
-  int i;
-  for (i = 0; i < mu_I.rows; i++) {
-    mget(mu_I, i + 1, i + 1) = mu * 1;
-  }
   double tolerance = 0.0000000000001;
-  matrix A_minus_mu_I = matrix_sub(A, &mu_I);
   while (!m_stop) {
+    matrix mu_I = new_matrix(A->rows, A->cols);
+    int i;
+    for (i = 0; i < mu_I.rows; i++) {
+      mget(mu_I, i + 1, i + 1) = mu * 1;
+    }
+    matrix A_minus_mu_I = matrix_sub(A, &mu_I);
     k = k + 1;
     vector w = solve(&A_minus_mu_I, &v_0);
     normalize_vector(&w);
