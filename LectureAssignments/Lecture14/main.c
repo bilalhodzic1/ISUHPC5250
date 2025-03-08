@@ -2,16 +2,7 @@
 #include "matrix.h"
 
 int main(int argc, char *argv[]) {
-  matrix A = new_matrix(3, 3);
-  mget(A, 1, 1) = 0;
-  mget(A, 1, 2) = 11;
-  mget(A, 1, 3) = -5;
-  mget(A, 2, 1) = -2;
-  mget(A, 2, 2) = 17;
-  mget(A, 2, 3) = -7;
-  mget(A, 3, 1) = -4;
-  mget(A, 3, 2) = 26;
-  mget(A, 3, 3) = -10;
+  matrix A = generate_matrix_for_solve();
   print_matrix(&A);
   double test_eval = power_iteration(&A);
   printf("%lf\n", test_eval);
