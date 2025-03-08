@@ -8,7 +8,7 @@ OBJECTS = main.o \
 					fill_random_vector.o \
 					normalize_vector.o \
 					transpose_vector.o \
-					matrix_scaler_mult.o
+					matrix_sub.o
 LFLAGS = 
 
 .PHONY : clean help
@@ -33,4 +33,4 @@ help:
 	@echo " fill_random_vector.o"
 	@echo " normalize_vector.o"
 	@echo " transpose_vector.o"
-	@echo " matrix_scaler_mult.o"
+	@echo " matrix_sub.o"

@@ -10,16 +10,16 @@ double inverse_power_iteration(matrix *A, double mu) {
   int m_stop = 0;
   int k = 0;
   int max_iters = 100;
-  matrix I = new_matrix(A->rows, A->cols);
+  matrix mu_I = new_matrix(A->rows, A->cols);
   int i;
-  for (i = 0; i < I.rows; i++) {
-    mget(I, i + 1, i + 1) = 1;
+  for (i = 0; i < mu_I.rows; i++) {
+    mget(mu_I, i + 1, i + 1) = mu * 1;
   }
-  print_matrix(&I);
   double tolerance = 0.0000000000001;
+  matrix A_minus_mu_I = matrix_sub(A, &mu_I);
   while (!m_stop) {
     k = k + 1;
-    vector w = matrix_vector_mult(A, &v_0);
+    vector w = solve(&A_minus_mu_I, &v_0);
     normalize_vector(&w);
     v_0 = w;
     matrix v_k_t = transpose_vector(&v_0);
