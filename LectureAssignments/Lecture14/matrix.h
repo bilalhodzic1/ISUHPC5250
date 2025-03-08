@@ -47,4 +47,5 @@ void fill_random_vector(vector *v);
 void normalize_vector(vector *v);
 matrix transpose_vector(const vector *v);
 matrix matrix_sub(const matrix *A, const matrix *B);
+matrix transpose_matrix(matrix *mat);
 #endif
