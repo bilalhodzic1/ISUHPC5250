@@ -46,4 +46,5 @@ vector solve(const matrix *A, const vector *b);
 void fill_random_vector(vector *v);
 void normalize_vector(vector *v);
 matrix transpose_vector(const vector *v);
+void matrix_scaler_mult(const matrix *mat);
 #endif

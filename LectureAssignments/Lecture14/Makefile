@@ -7,7 +7,8 @@ OBJECTS = main.o \
 					rayleigh_quotient_iteration.o \
 					fill_random_vector.o \
 					normalize_vector.o \
-					transpose_vector.o
+					transpose_vector.o \
+					matrix_scaler_mult.o
 LFLAGS = 
 
 .PHONY : clean help
@@ -32,3 +33,4 @@ help:
 	@echo " fill_random_vector.o"
 	@echo " normalize_vector.o"
 	@echo " transpose_vector.o"
+	@echo " matrix_scaler_mult.o"
