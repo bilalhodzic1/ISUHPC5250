@@ -7,7 +7,9 @@ OBJECTS = main.o \
 					matrix.o \
 					QRA.o \
 					QRdecomp.o \
-					trimatrix.o 
+					trimatrix.o \
+					generate_matrix_for_solve.o \
+					transpose_matrix.o
 LFLAGS = 
 
 .PHONY : clean help
@@ -32,3 +34,5 @@ help:
 	@echo " QRA.o"
 	@echo " QRdecomp.o"
 	@echo " trimatrix.o"
+	@echo " generate_matrix_for_solve.o"
+	@echo " transpose_matrix.o"
