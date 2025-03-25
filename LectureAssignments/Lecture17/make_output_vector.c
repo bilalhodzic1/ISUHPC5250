@@ -5,8 +5,8 @@ void make_output_vector(int num_threads, int vector_size, int degree_k) {
   fill_random_vector(&v);
   vector output = new_vector(vector_size);
   const double time1 = omp_get_wtime();
-#pragma omp parallel for num_threads(num_threads)
   int i, j;
+#pragma omp parallel for num_threads(num_threads)
   for (i = 1; i < vector_size; i++) {
     double sum = 0.0;
     double value = vget(v, i);
