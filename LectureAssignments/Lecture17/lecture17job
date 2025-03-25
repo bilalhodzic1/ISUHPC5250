@@ -11,4 +11,9 @@
 
 # LOAD MODULES, INSERT CODE, AND RUN YOUR PROGRAMS HERE
 
+./main.exe 1 10000 1000 > output1.txt 
+./main.exe 2 10000 1000 > output1.txt 
+./main.exe 4 10000 1000 > output1.txt 
+./main.exe 8 10000 1000 > output1.txt 
+./main.exe 16 10000 1000 > output1.txt 
 
