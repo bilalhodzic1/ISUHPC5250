@@ -4,7 +4,7 @@ OBJECTS = main.o \
 					matrix.o \
 					make_output_vector.o \
 					fill_random_vector.o
-LFLAGS = -lgomp
+LFLAGS = -lgomp -lm
 
 .PHONY : clean help
 
