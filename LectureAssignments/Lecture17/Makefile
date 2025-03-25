@@ -1,5 +1,5 @@
 CC  = gcc
-FFLAGS = -O3 -Wall -std=c99 -fopenmp
+FFLAGS = -Wall -std=c99 -fopenmp
 OBJECTS = main.o \
 					matrix.o \
 					make_output_vector.o \
