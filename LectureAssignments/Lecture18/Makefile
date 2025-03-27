@@ -2,7 +2,9 @@ CC  = gcc
 FFLAGS = -Wall -std=c99 -fopenmp
 OBJECTS = main.o \
 					simpson_computation.o \
-					local_simpson.o
+					local_simpson.o \
+					critical_parallel.o \
+					reduction_parallel.o
 
 LFLAGS = -lgomp -lm
 
