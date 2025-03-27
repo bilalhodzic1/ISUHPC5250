@@ -1,7 +1,7 @@
 CC  = gcc
 FFLAGS = -O3 -Wall
 OBJECTS = main.o \
-					generate_points.o
+					simpson_computation.o
 
 LFLAGS = 
 

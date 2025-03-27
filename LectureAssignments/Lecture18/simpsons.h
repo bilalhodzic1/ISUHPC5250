@@ -3,6 +3,6 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-double *generate_set_of_points(double val_a, double val_b, int N);
 double func(const double x);
+double simpson_computation(double val_a, double val_b, int N);
 #endif
