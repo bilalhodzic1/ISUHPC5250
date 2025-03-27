@@ -14,6 +14,11 @@ double local_simpson_computation(double val_a, double val_b, int N) {
   double local_b = local_a + local_N * h;
   int i;
   for (i = 0; i < local_N; i += 2) {
+    printf("I VAL : %d\n", i);
+    double x_0 = local_a + (i * h);
+    double x_1 = local_a + ((i + 1) * h);
+    double x_2 = local_a + ((i + 2) * h);
+    printf("%lf, %lf, %lf\n", x_0, x_1, x_2);
     double sum = func(local_a + (i * h)) + 4.0 * func(local_a + ((i + 1) * h)) +
                  func(local_a + ((i + 2) * h));
     T_local += sum;
