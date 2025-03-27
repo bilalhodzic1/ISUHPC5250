@@ -1,3 +1,6 @@
-//
-// Created by Bilal Hodzic on 3/27/25.
-//
+#include "simpsons.h"
+
+int main(int argc, char* argv[]){
+
+    return 0;
+}

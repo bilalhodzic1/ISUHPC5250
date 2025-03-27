@@ -1,8 +1,9 @@
-//
-// Created by Bilal Hodzic on 3/27/25.
-//
-
-#ifndef LECTURE18_SIMPSONS_H
-#define LECTURE18_SIMPSONS_H
-
-#endif //LECTURE18_SIMPSONS_H
+#ifndef _SIMPSONS_H
+#define _SIMPSONS_H
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#ifdef OPEN_MP
+#include <opm.h>
+#endif
+#endif
