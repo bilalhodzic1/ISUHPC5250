@@ -1,9 +1,11 @@
-CC  = gcc
-FFLAGS = -O3 -Wall
-OBJECTS = main.o \
-					simpson_computation.o
+OCC  = gcc
+FFLAGS = -Wall -std=c99 -fopenmp
+BJECTS = main.o \
+					simpson_computation.o \
+					local_simpson.o
 
-LFLAGS = 
+LFLAGS = -lgomp -lm
+
 
 .PHONY : clean help
 
