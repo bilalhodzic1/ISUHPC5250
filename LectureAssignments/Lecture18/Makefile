@@ -1,6 +1,6 @@
-OCC  = gcc
+CC  = gcc
 FFLAGS = -Wall -std=c99 -fopenmp
-BJECTS = main.o \
+OBJECTS = main.o \
 					simpson_computation.o \
 					local_simpson.o
 
