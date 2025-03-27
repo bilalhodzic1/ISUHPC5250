@@ -7,12 +7,12 @@ int main(int argc, char *argv[]) {
   const double time1 = omp_get_wtime();
 #pragma omp parallel num_threads(thread_count)
   {
-    double T_local = LocalCompTrap(a, b, N);
+    double T_local = local_simpson_computation(val_a, val_b, N);
 #pragma omp critical
     T += T_local;
   }
   const double time2 = omp_get_wtime();
   double result = simpson_computation(val_a, val_b, N);
-  printf("%lf\n", result);
+  printf("%lf\n", T);
   return 0;
 }
