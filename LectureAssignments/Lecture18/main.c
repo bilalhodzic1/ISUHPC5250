@@ -1,18 +1,18 @@
 #include "simpsons.h"
+#include <stdlib.h>
 int main(int argc, char *argv[]) {
-  int N = 6;
-  double val_a = 1.0;
-  double val_b = 2.0;
-  double T = 0.0;
-  const double time1 = omp_get_wtime();
-#pragma omp parallel num_threads(thread_count)
-  {
-    double T_local = local_simpson_computation(val_a, val_b, N);
-#pragma omp critical
-    T += T_local;
+  if (argc != 3) {
+    printf("Wrong number of arguements!\n");
+    exit(1);
   }
-  const double time2 = omp_get_wtime();
-  double result = simpson_computation(val_a, val_b, N);
-  printf("%lf\n", T);
+  int N = atoi(argv[2]);
+  int thread_count = atoi(argv[1]);
+  double val_a = 1;
+  double val_b = 2;
+  double critical_result =
+      critical_simpson_computation(val_a, val_b, N, thread_count);
+  double reduction_resilt =
+      reduction_simpson_computation(val_a, val_b, N, thread_count);
+  printf("Crit : %lf\n Red : %lf", critical_result, reduction_resilt);
   return 0;
 }

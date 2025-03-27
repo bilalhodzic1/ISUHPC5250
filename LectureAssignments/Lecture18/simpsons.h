@@ -6,4 +6,9 @@
 double func(const double x);
 double simpson_computation(double val_a, double val_b, int N);
 double local_simpson_computation(double val_a, double val_b, int N);
+double critical_simpson_computation(double val_a, double val_b, int N,
+                                    int num_threads);
+double reduction_simpson_computation(double val_a, double val_b, int N,
+                                     int num_threads);
+
 #endif
