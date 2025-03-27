@@ -1,7 +1,8 @@
 CC  = gcc
-FFLAGS = -O3 -Wall
+FFLAGS = -Wall -std=c99 -fopenmp
 OBJECTS = main.o \
-LFLAGS = 
+
+LFLAGS = -lgomp -lm
 
 .PHONY : clean help
 
