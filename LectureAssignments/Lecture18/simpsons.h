@@ -4,4 +4,5 @@
 #include <stdio.h>
 #include <stdlib.h>
 double *generate_set_of_points(double val_a, double val_b, int N);
+double func(const double x);
 #endif
