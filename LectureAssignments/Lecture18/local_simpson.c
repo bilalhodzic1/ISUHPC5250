@@ -9,12 +9,12 @@ double local_simpson_computation(double val_a, double val_b, int N) {
 #endif
   double h = (val_b - val_a) / (double)N;
   double T_local = 0.0;
-  double local_N = N / thread_count;
+  int local_N = N / thread_count;
   double local_a = val_a + my_rank * local_N * h;
   double local_b = local_a + local_N * h;
   int i;
   for (i = 0; i < local_N; i += 2) {
-    printf("I VAL : %d\n", i);
+    printf("I VAL : %d MY RANK : %d LOCAL N : %d\n", i, my_rank, local_N);
     double x_0 = local_a + (i * h);
     double x_1 = local_a + ((i + 1) * h);
     double x_2 = local_a + ((i + 2) * h);
