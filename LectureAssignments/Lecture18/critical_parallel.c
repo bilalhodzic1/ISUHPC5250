@@ -10,5 +10,8 @@ double critical_simpson_computation(double val_a, double val_b, int N,
     T += T_local;
   }
   const double time2 = omp_get_wtime();
+  const double clock_time = time2 - time1;
+  printf("With %i threads , clock_time = %11.5e (sec)\n", num_threads,
+         clock_time);
   return T;
 }
