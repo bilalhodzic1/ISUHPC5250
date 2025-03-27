@@ -7,8 +7,8 @@ int main(int argc, char *argv[]) {
   }
   int N = atoi(argv[2]);
   int thread_count = atoi(argv[1]);
-  double val_a = 1;
-  double val_b = 2;
+  double val_a = 0;
+  double val_b = 1;
   double critical_result =
       critical_simpson_computation(val_a, val_b, N, thread_count);
   double reduction_resilt =
