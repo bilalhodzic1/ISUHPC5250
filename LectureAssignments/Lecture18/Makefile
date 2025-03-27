@@ -1,8 +1,9 @@
 CC  = gcc
-FFLAGS = -Wall -std=c99 -fopenmp
+FFLAGS = -O3 -Wall
 OBJECTS = main.o \
+					generate_points.o
 
-LFLAGS = -lgomp -lm
+LFLAGS = 
 
 .PHONY : clean help
 
