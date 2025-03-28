@@ -5,7 +5,11 @@ double reduction_simpson_computation(double val_a, double val_b, int N,
   const double time1 = omp_get_wtime();
 #pragma omp parallel num_threads(num_threads) reduction(+ : T)
   T += local_simpson_computation(val_a, val_b, N);
+
   const double time2 = omp_get_wtime();
+
+  printf("%lf time 1\n", time1);
+  printf("%lf time 2\n", time2);
   const double clock_time = time2 - time1;
   printf("With %i threads , clock_time = %11.5e (sec)\n", num_threads,
          clock_time);
