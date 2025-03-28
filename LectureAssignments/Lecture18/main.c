@@ -13,6 +13,5 @@ int main(int argc, char *argv[]) {
       critical_simpson_computation(val_a, val_b, N, thread_count);
   double reduction_resilt =
       reduction_simpson_computation(val_a, val_b, N, thread_count);
-  printf("Crit : %lf\n Red : %lf", critical_result, reduction_resilt);
   return 0;
 }

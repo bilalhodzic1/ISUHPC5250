@@ -7,7 +7,7 @@ double reduction_simpson_computation(double val_a, double val_b, int N,
   T += local_simpson_computation(val_a, val_b, N);
   const double time2 = omp_get_wtime();
 
-  printf("Reduction timings: \n");
+  printf("\nReduction timings: \n");
   printf("Time 1: %lf ", time1);
   printf("Time 2: %lf ", time2);
   printf("N: %d", N);
