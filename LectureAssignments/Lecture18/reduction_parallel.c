@@ -12,8 +12,8 @@ double reduction_simpson_computation(double val_a, double val_b, int N,
   printf("Time 2: %lf ", time2);
   printf("N: %d", N);
   printf("T: %lf", T);
-  printf("Number Threads: %d", num_threads);
+  printf("Number Threads: %d ", num_threads);
   const double clock_time = time2 - time1;
-  printf("Total time %11.5e", clock_time);
+  printf("Total time %11.5e\n", clock_time);
   return T;
 }
