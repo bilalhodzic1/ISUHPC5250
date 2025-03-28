@@ -10,10 +10,13 @@ double critical_simpson_computation(double val_a, double val_b, int N,
     T += T_local;
   }
   const double time2 = omp_get_wtime();
-  printf("%lf time 1\n", time1);
-  printf("%lf time 2\n", time2);
+  printf("Critical zone timings: \n");
+  printf("Time 1: %lf ", time1);
+  printf("Time 2: %lf ", time2);
+  printf("N: %d", N);
+  printf("T: %lf", T);
+  printf("Number Threads: %d", num_threads);
   const double clock_time = time2 - time1;
-  printf("With %i threads , clock_time = %11.5e (sec)\n", num_threads,
-         clock_time);
+  printf("Total time %11.5e", clock_time);
   return T;
 }
