@@ -4,7 +4,7 @@
 void max_normalize_vector_fine(int num_threads, int N) {
   vector v = new_vector(N);
   for (int i = 1; i <= N; i++) {
-    vget(v, i) = N;
+    vget(v, i) = i;
   }
 
   double norm = 0.0;
@@ -22,9 +22,7 @@ void max_normalize_vector_fine(int num_threads, int N) {
 #pragma omp barrier
 #pragma omp for
     for (int i = 1; i <= N; i++) {
-      printf("Prev vget(i): %lf\n", vget(v, i));
       vget(v, i) = vget(v, i) / norm;
-      printf("New vget(i): %lf\n", vget(v, i));
     }
   }
 
