@@ -1,9 +1,9 @@
 CC  = gcc
 FFLAGS = -Wall -std=c99 -fopenmp
 OBJECTS = main.o \
-					matrix.o \
-					make_output_vector.o \
-					fill_random_vector.o
+					fill_random_vector.o \
+					matrix.o
+
 LFLAGS = -lgomp -lm
 
 .PHONY : clean help
@@ -21,6 +21,5 @@ clean:
 help:
 	@echo " Valid targets :"
 	@echo " main.exe"
-	@echo " matrix.o"
-	@echo " make_output_vector.o"
 	@echo " fill_random_vector.o"
+	@echo " matrix.o"
