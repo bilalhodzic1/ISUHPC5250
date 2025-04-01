@@ -1,4 +1,5 @@
 #include "main.h"
+#include "matrix.h"
 
 void max_normalize_vector_fine(int num_threads, int N) {
   vector v = new_vector(N);
@@ -21,8 +22,9 @@ void max_normalize_vector_fine(int num_threads, int N) {
 #pragma omp barrier
 #pragma omp for
     for (int i = 1; i <= N; i++) {
-      printf("Norm within loop: %lf", norm);
+      printf("Prev vget(i): %lf\n", vget(v, i));
       vget(v, i) = vget(v, i) / norm;
+      printf("New vget(i): %lf\n", vget(v, i));
     }
   }
 
