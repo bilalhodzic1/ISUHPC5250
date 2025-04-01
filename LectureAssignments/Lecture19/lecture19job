@@ -11,5 +11,5 @@
 
 # LOAD MODULES, INSERT CODE, AND RUN YOUR PROGRAMS HERE
 
-./main.exe 1 40 > output1.txt 
+./main.exe 10 1 > output1.txt 
 
