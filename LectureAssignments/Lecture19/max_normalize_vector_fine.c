@@ -29,7 +29,8 @@ void max_normalize_vector_fine(int num_threads, int N) {
   const double time2 = omp_get_wtime();
   const double clock_time = time2 - time1;
 
-  printf("Num Threads: %d, Norm: %lf, V[0]: %lf, V[N-1]: %lf, Clock time: "
-         "%11.5e\n",
+  printf("Max norm fine : [Num Threads: %d, Norm: %lf, V[0]: %lf, V[N-1]: %lf, "
+         "Clock time: "
+         "%11.5e]\n",
          num_threads, norm, vget(v, 1), vget(v, N), clock_time);
 }
