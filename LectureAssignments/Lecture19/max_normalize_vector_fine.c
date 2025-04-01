@@ -18,6 +18,7 @@ void max_normalize_vector_fine(int num_threads, int N) {
         norm = vget(v, i);
       }
     }
+#pragma omp barrier
 #pragma omp for
     for (int i = 1; i <= N; i++) {
       vget(v, i) = vget(v, i) / norm;
