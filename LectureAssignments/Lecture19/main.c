@@ -6,6 +6,6 @@ int main(int argc, char *argv[]) {
   }
   int N = atoi(argv[1]);
   int num_threads = atoi(argv[2]);
-
+  max_normalize_vector_fine(num_threads, N);
   return 0;
 }

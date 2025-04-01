@@ -1,7 +1,7 @@
 #include "main.h"
-#include "matrix.h"
 
-void max_normalize_vector_fine(vector v, int num_threads, int N) {
+void max_normalize_vector_fine(int num_threads, int N) {
+  vector v = new_vector(N);
   for (int i = 1; i <= N; i++) {
     vget(v, i) = N;
   }
