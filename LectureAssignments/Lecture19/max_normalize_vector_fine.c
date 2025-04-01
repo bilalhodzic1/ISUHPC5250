@@ -10,7 +10,7 @@ void max_normalize_vector_fine(vector v, int num_threads, int N) {
 
   const double time1 = omp_get_wtime();
 
-#pragma omp parallel num_threads(thread_count)
+#pragma omp parallel num_threads(num_threads)
   {
 #pragma omp for reduction(max : norm)
     for (int i = 1; i <= N; i++) {
