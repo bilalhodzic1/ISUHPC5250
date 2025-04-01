@@ -14,13 +14,14 @@ void max_normalize_vector_fine(int num_threads, int N) {
   {
 #pragma omp for reduction(max : norm)
     for (int i = 1; i <= N; i++) {
-      if (vget(v, 1) > norm) {
+      if (vget(v, i) > norm) {
         norm = vget(v, i);
       }
     }
 #pragma omp barrier
 #pragma omp for
     for (int i = 1; i <= N; i++) {
+      printf("Norm within loop: %lf", norm);
       vget(v, i) = vget(v, i) / norm;
     }
   }
