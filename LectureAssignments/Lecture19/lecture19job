@@ -11,9 +11,9 @@
 
 # LOAD MODULES, INSERT CODE, AND RUN YOUR PROGRAMS HERE
 
-./main.exe 876543216 1 > output1.txt 
-./main.exe 876543216 2 > output2.txt 
-./main.exe 876543216 4 > output4.txt 
-./main.exe 876543216 8 > output8.txt 
-./main.exe 876543216 16 > output16.txt 
+./main.exe 960000 1 > output1.txt 
+./main.exe 960000 2 > output2.txt 
+./main.exe 960000 4 > output4.txt 
+./main.exe 960000 8 > output8.txt 
+./main.exe 960000 16 > output16.txt 
 
