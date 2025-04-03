@@ -11,7 +11,7 @@
 
 # LOAD MODULES, INSERT CODE, AND RUN YOUR PROGRAMS HERE
 
-./main.exe 2 1.0e-5 > output1.txt
-./main.exe 4 1.0e-5 > output1.txt
-./main.exe 8 1.0e-5 > output1.txt
-./main.exe 16 1.0e-5 > output1.txt
+./main.exe 2 1.0e-5 > output2.txt
+./main.exe 4 1.0e-5 > output4.txt
+./main.exe 8 1.0e-5 > output8.txt
+./main.exe 16 1.0e-5 > output16.txt
