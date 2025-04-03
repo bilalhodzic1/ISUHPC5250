@@ -36,17 +36,25 @@ int main(int argc, char *argv[]) {
 
   // call adaptive integration recursively
   double I;
+  double time1;
+  double time2;
+  double clock_time;
   if (thread_count == 1) {
     I = AdaptiveIntSerial(a, b, TOL, filename);
   } else {
+
+    time1 = omp_get_wtime();
     I = AdaptiveInt(a, b, TOL, filename, thread_count);
+    time2 = omp_get_wtime();
+    clock_time = time2 - time1;
   }
 
   // print some data to the screen
   printf("\n thread_count = %i\n", thread_count);
   printf(" TOL = %24.15e\n", TOL);
   printf(" I = %24.15e\n", I);
-  printf(" err = %24.15e\n\n", fabs(I - Iex));
+  printf(" err = %24.15e\n", fabs(I - Iex));
+  printf(" Time to complete: %10.5e\n\n", clock_time);
 
   return 0;
 }
