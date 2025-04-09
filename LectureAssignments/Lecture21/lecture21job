@@ -11,9 +11,6 @@
 
 # LOAD MODULES, INSERT CODE, AND RUN YOUR PROGRAMS HERE
 
-module purge
-module load intel
-
 mpirun -np 2 ./main.exe 0 1 160000 > output2.data
 mpirun -np 4 ./main.exe 0 1 160000 > output4.data
 mpirun -np 8 ./main.exe 0 1 160000 > output8.data
