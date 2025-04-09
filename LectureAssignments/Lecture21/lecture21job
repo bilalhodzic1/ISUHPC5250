@@ -11,7 +11,10 @@
 
 # LOAD MODULES, INSERT CODE, AND RUN YOUR PROGRAMS HERE
 
-./main.exe 2 1.0e-5 > output2.txt
-./main.exe 4 1.0e-5 > output4.txt
-./main.exe 8 1.0e-5 > output8.txt
-./main.exe 16 1.0e-5 > output16.txt
+module purge
+module load intel
+
+mpirun -np 2 ./main.exe 0 1 160000> output2.data
+mpirun -np 4 ./main.exe 0 1 160000> output4.data
+mpirun -np 8 ./main.exe 0 1 160000> output8.data
+mpirun -np 16 ./main.exe 0 1 160000> output16.data
