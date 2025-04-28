@@ -53,3 +53,7 @@ dkms.conf
 
 LectureAssignments/Lecture04/__pycache__
 LectureAssignments/*/.idea
+
+compile_commands.json
+
+.cache
