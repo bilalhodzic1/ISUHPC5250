@@ -48,7 +48,7 @@ for player in tqdm(all_players, desc="Players Progress", unit="player"):
                     df['SEASON'] = season
                     master_df = pd.concat([master_df, df], ignore_index=True)
                     
-                time.sleep(0.7)  # Be nice to the API
+                time.sleep(1)  # Be nice to the API
                 
             except (requests.exceptions.RequestException, Exception) as e:
                 print(f"  ❌ Error pulling {player_name} {season}: {e}")
