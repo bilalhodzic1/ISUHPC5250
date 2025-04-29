@@ -15,13 +15,10 @@ Go through each UPER and multiple the scalaing factor
 #include "csvutils.h"
 
 int main(int argc, char* argv[]){
-    int num_tokens;
-    char str[] = "375,Michael Porter Jr.,1037593,2023,DEN,12,12,2,2,0,0,5,13,0,0,30.0";
-    char delmitter[] = ",";
-    char** string_arr = split_string(str, delmitter,&num_tokens);
-    int i;
-    for(i = 0; i < 16; i++){
-        printf("String %d: %s\n", i, string_arr[i]);
-    }
+    FILE* file = fopen("1.csv", "r");
+    int num_games;
+    game_t* games = read_games(file, &num_games);
+    int i = 0;
+    printf("GameID: %d\n", games[i].game_id);
     return 0;
 }

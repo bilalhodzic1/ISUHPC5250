@@ -22,7 +22,6 @@ typedef struct game{
 } game_t;
 
 game_t* read_games(FILE* file, int* num_games);
-void free_games(game_t* games, int num_games);
 
 char** split_string(char* str, char* delimiter, int* num_tokens);
 

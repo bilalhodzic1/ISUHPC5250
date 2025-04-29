@@ -1,7 +1,8 @@
 CC  = gcc
 FFLAGS = -O3 -Wall
 OBJECTS = main.o \
-		  split_string.o
+		  split_string.o \
+		  read_games.o
 
 LFLAGS =
 
@@ -21,3 +22,4 @@ help:
 	@echo " Valid targets :"
 	@echo " main.exe"
 	@echo " split_strings.o"
+	@echo " read_games.o"
