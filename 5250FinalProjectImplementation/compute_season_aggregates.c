@@ -19,6 +19,7 @@ void aggregate_stats(stat_agg_t *prev, game_t game){
     prev->fta_agg += game.fta;
     prev->to_agg += game.turnover;
     prev->pf_agg += game.pf;
+    prev->mins_agg += game.min;
 }
 /**
 * Initializes a stat aggregate object with the stats from a game
@@ -38,6 +39,7 @@ void initialize_stat_obj(stat_agg_t *new, game_t game){
     new->fta_agg = game.fta;
     new->to_agg = game.turnover;
     new->pf_agg = game.pf;
+    new->mins_agg = game.min;
 }
 /**
 * Computes aggregates per player for a season of games

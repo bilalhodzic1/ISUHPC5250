@@ -8,8 +8,6 @@ Compute game PER using simplified formula
     Maybe I will extend this im not sure
 Get game_id player_id and PER from this
 
-
-
 Compute in parallel the UPER for a player in each season
     UPER is composed of many aggregate stats
     Should be possible to compute these in parallel (About 2 million total data points)
@@ -27,7 +25,13 @@ int main(int argc, char* argv[]){
     int num_games;
     game_t* games = read_games(file, &num_games);
     HashItem* player_agg_map = compute_season_aggregates(games, num_games);
-    HashItem* lebron = find(237, &player_agg_map);
-    printf("%d\n", lebron->value->pf_agg);
+    int num_players;
+    per_object_t* player_pers = compute_player_pers(&player_agg_map, &num_players);
+    int i;
+    for(i = 0; i < num_players; i++){
+        if(player_pers[i].player_id == 237){
+            printf("Player ID: %d, Player PER: %lf\n", player_pers[i].player_id, player_pers[i].per);
+        }
+    }
     return 0;
 }

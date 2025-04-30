@@ -15,6 +15,7 @@ typedef struct stat_agg{
     int fta_agg;
     int to_agg;
     int pf_agg;
+    float mins_agg;
 }stat_agg_t;
 typedef struct {
     int key;

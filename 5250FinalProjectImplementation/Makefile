@@ -4,7 +4,8 @@ OBJECTS = main.o \
 		  split_string.o \
 		  read_games.o \
 		  compute_season_aggregates.o \
-		  hashmap.o
+		  hashmap.o \
+		  compute_player_pers.o
 
 LFLAGS =
 
@@ -27,3 +28,4 @@ help:
 	@echo " read_games.o"
 	@echo " compute_season_aggregates.o"
 	@echo " hashmap.o"
+	@echo " compute_player_pers.o"
