@@ -20,6 +20,8 @@ typedef struct game{
     int fta;
     float min;
     int pf;
+    int oreb;
+    int dreb;
 } game_t;
 
 game_t* read_games(FILE* file, int* num_games);

@@ -1,6 +1,8 @@
 #ifndef __PERENGINE__
 #define __PERENGINE__
+#include "hashmap.h"
 #include "csvutils.h"
-double compute_game_per(game_t game);
+
+HashItem* compute_season_aggregates(game_t* games, int num_games);
 
 #endif

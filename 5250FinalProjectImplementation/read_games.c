@@ -24,6 +24,8 @@ game_t parse_game_line(char** string_array){
     game.fta = atoi(string_array[14]);
     game.min = atof(string_array[15]);
     game.pf = atoi(string_array[16]);
+    game.oreb = atoi(string_array[17]);
+    game.dreb = atoi(string_array[18]);
     return game;
 }
 
