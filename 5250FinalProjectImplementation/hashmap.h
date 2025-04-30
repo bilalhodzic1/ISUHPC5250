@@ -18,11 +18,11 @@ typedef struct stat_agg{
 }stat_agg_t;
 typedef struct {
     int key;
-    stat_agg_t value;
+    stat_agg_t* value;
     UT_hash_handle hh;
 } HashItem;
-void insert(int key, stat_agg_t value, HashItem* hashmap);
-HashItem *find(int key, HashItem* hashmap);
-void delete(int key, HashItem* hashmap);
-void cleanup(HashItem* hashmap);
+void insert(int key, stat_agg_t* value, HashItem** hashmap);
+HashItem *find(int key, HashItem** hashmap);
+void delete(int key, HashItem** hashmap);
+void cleanup(HashItem** hashmap);
 #endif

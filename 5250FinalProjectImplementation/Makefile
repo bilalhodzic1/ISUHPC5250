@@ -2,7 +2,9 @@ CC  = gcc
 FFLAGS = -O3 -Wall
 OBJECTS = main.o \
 		  split_string.o \
-		  read_games.o
+		  read_games.o \
+		  compute_season_aggregates.o \
+		  hashmap.o
 
 LFLAGS =
 
@@ -23,3 +25,5 @@ help:
 	@echo " main.exe"
 	@echo " split_strings.o"
 	@echo " read_games.o"
+	@echo " compute_season_aggregates.o"
+	@echo " hashmap.o"

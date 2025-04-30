@@ -20,12 +20,14 @@ Determin scaling factor
 Go through each UPER and multiple the scalaing factor
 */
 #include "csvutils.h"
-
+#include "hashmap.h"
+#include "per_engine.h"
 int main(int argc, char* argv[]){
     FILE* file = fopen("1.csv", "r");
     int num_games;
     game_t* games = read_games(file, &num_games);
-    int i = 0;
-    printf("GameID: %d\n", games[i].game_id);
+    HashItem* player_agg_map = compute_season_aggregates(games, num_games);
+    HashItem* lebron = find(237, &player_agg_map);
+    printf("%d\n", lebron->value->pf_agg);
     return 0;
 }
