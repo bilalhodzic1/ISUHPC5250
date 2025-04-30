@@ -21,6 +21,7 @@ Go through each UPER and multiple the scalaing factor
 #include "hashmap.h"
 #include "per_engine.h"
 int main(int argc, char* argv[]){
+    //Serial implementation:
     FILE* file = fopen("1.csv", "r");
     int num_games;
     game_t* games = read_games(file, &num_games);
