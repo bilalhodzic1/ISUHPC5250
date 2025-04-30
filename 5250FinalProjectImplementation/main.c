@@ -3,6 +3,13 @@ OUTLINE:
 
 READ CSV into data rows for processing
     CSV is ordered by season/player
+
+Compute game PER using simplified formula
+    Maybe I will extend this im not sure
+Get game_id player_id and PER from this
+
+
+
 Compute in parallel the UPER for a player in each season
     UPER is composed of many aggregate stats
     Should be possible to compute these in parallel (About 2 million total data points)

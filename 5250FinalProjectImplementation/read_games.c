@@ -23,6 +23,7 @@ game_t parse_game_line(char** string_array){
     game.ftm = atoi(string_array[13]);
     game.fta = atoi(string_array[14]);
     game.min = atof(string_array[15]);
+    game.pf = atoi(string_array[16]);
     return game;
 }
 
