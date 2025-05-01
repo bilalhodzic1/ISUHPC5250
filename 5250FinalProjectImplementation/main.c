@@ -25,8 +25,9 @@ int main(int argc, char *argv[]) {
   MPI_Init(NULL, NULL);
   MPI_Comm_size(MPI_COMM_WORLD, &comm_sz);
   MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
-  MPI_Datatype mpi_struct = create_stat_object();
+  MPI_Datatype mpi_stat_agg_obj = create_stat_object();
   MPI_Datatype mpi_per_obj = create_player_per_object();
+  MPI_Datatype mpi_game_obj = create_game_object();
   double time_start;
   if (my_rank == 0) {
     time_start = MPI_Wtime();
@@ -54,11 +55,33 @@ int main(int argc, char *argv[]) {
     game_t *games;
     if (my_rank == 0) {
       FILE *file = fopen("1.csv", "r");
-      int num_games;
       game_t *games = read_games(file, &num_games);
       fclose(file);
     }
     MPI_Barrier(MPI_COMM_WORLD);
+    MPI_Bcast(&num_games, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    int *sendcounts = (int *)malloc(comm_sz * sizeof(int));
+    int *process_displacements = (int *)malloc(comm_sz * sizeof(int));
+
+    int chunk_size = num_games / comm_sz;
+    int remainder = num_games % comm_sz;
+
+    for (int i = 0; i < comm_sz; i++) {
+      sendcounts[i] = chunk_size + (i < remainder ? 1 : 0);
+      process_displacements[i] =
+          i > 0 ? process_displacements[i - 1] + sendcounts[i - 1] : 0;
+    }
+    int local_count = sendcounts[my_rank];
+    game_t *local_games = (game_t *)malloc(local_count * sizeof(game_t));
+    MPI_Scatterv(games, sendcounts, process_displacements, mpi_game_obj,
+                 local_games, local_count, mpi_game_obj, 0, MPI_COMM_WORLD);
+    printf("Local Count for process %d: %d\n", my_rank, local_count);
+    for (int i = 0; i < local_count; i++) {
+      if (!(i + 1 < local_count)) {
+        printf("Process %d, count: %d, total games %d\n", my_rank, i,
+               num_games);
+      }
+    }
   }
   if (my_rank == 0) {
     double time_end = MPI_Wtime();
