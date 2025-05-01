@@ -82,6 +82,21 @@ MPI_Datatype create_game_object() {
   return mpi_game;
 }
 
+MPI_Datatype create_player_stat_and_agg_object(MPI_Datatype mpi_stat_agg_obj) {
+  MPI_Datatype mpi_player_stat_and_agg_obj;
+  int block_lengths[2] = {1, 1};
+  MPI_Aint displacements[2];
+  displacements[0] = offsetof(player_and_agg_t, player_id);
+  displacements[1] = offsetof(player_and_agg_t, player_agg_stats);
+  MPI_Datatype types[2] = {MPI_INT, mpi_stat_agg_obj};
+
+  MPI_Type_create_struct(2, block_lengths, displacements, types,
+                         &mpi_player_stat_and_agg_obj);
+  MPI_Type_commit(&mpi_player_stat_and_agg_obj);
+
+  return mpi_player_stat_and_agg_obj;
+}
+
 void send_stat_agg(stat_agg_t *data, int dest_rank, MPI_Datatype mpi_struct) {
   MPI_Send(data, 1, mpi_struct, dest_rank, 0, MPI_COMM_WORLD);
 }

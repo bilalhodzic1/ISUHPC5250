@@ -25,9 +25,11 @@ int main(int argc, char *argv[]) {
   MPI_Init(NULL, NULL);
   MPI_Comm_size(MPI_COMM_WORLD, &comm_sz);
   MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
-  // MPI_Datatype mpi_stat_agg_obj = create_stat_object();
+  MPI_Datatype mpi_stat_agg_obj = create_stat_object();
   // MPI_Datatype mpi_per_obj = create_player_per_object();
   MPI_Datatype mpi_game_obj = create_game_object();
+  MPI_Datatype mpi_player_and_agg_obj =
+      create_player_stat_and_agg_object(mpi_stat_agg_obj);
   double time_start;
   if (my_rank == 0) {
     time_start = MPI_Wtime();
@@ -84,13 +86,7 @@ int main(int argc, char *argv[]) {
       HashItem *local_player_agg_map =
           compute_season_aggregates(local_games, local_count);
       HashItem *current_item, *tmp;
-      // Iterate through hashmap
-      HASH_ITER(hh, local_player_agg_map, current_item, tmp) {
-        if (current_item->value->player_id == 237) {
-          printf("Process %d, Player Id: %d, local pf agg %d\n", my_rank,
-                 current_item->value->player_id, current_item->value->pf_agg);
-        }
-      }
+      HASH_ITER(hh, local_player_agg_map, current_item, tmp) {}
     }
   }
   MPI_Barrier(MPI_COMM_WORLD);
