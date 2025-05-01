@@ -5,7 +5,8 @@ OBJECTS = main.o \
 		  read_games.o \
 		  compute_season_aggregates.o \
 		  hashmap.o \
-		  compute_player_pers.o
+		  compute_player_pers.o \
+		  mpi_objects.o
 
 LFLAGS =
 

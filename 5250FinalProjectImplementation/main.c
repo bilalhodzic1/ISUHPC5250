@@ -24,6 +24,8 @@ int main(int argc, char *argv[]) {
   MPI_Init(NULL, NULL);
   MPI_Comm_size(MPI_COMM_WORLD, &comm_sz);
   MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
+  MPI_Datatype mpi_struct = create_stat_object();
+  MPI_Datatype mpi_per_obj = create_player_per_object();
   double time_start;
   if (my_rank == 0) {
     time_start = MPI_Wtime();
