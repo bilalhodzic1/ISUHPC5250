@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Copy/paste this job script into a text file and submit with the command:
+#    sbatch thefilename
+# Job standard output will go to the file slurm-%j.out (where %j is the job ID)
+
+#SBATCH --partition=instruction    # Use the instruction partition
+#SBATCH --nodes=1   # Number of nodes to use
+#SBATCH --ntasks-per-node=32   # Use 32 processor cores per node
+#SBATCH --time=0-0:10:0   # Walltime limit (DD-HH:MM:SS)
+
+# LOAD MODULES, INSERT CODE, AND RUN YOUR PROGRAMS HERE
+
+mpirun -np 1 ./main.exe > output1.data
+mpirun -np 3 ./main.exe > output3.data
