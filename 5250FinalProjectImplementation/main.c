@@ -18,6 +18,7 @@ scalaing factor
 */
 #include "csvutils.h"
 #include "hashmap.h"
+#include "mpi.h"
 #include "per_engine.h"
 int main(int argc, char *argv[]) {
   int comm_sz, my_rank;
@@ -35,6 +36,7 @@ int main(int argc, char *argv[]) {
     FILE *file = fopen("1.csv", "r");
     int num_games;
     game_t *games = read_games(file, &num_games);
+    fclose(file);
     HashItem *player_agg_map = compute_season_aggregates(games, num_games);
     int num_players;
     per_object_t *player_pers =
@@ -46,6 +48,17 @@ int main(int argc, char *argv[]) {
                player_pers[i].per);
       }
     }
+  } else {
+    FILE *file;
+    int num_games;
+    game_t *games;
+    if (my_rank == 0) {
+      FILE *file = fopen("1.csv", "r");
+      int num_games;
+      game_t *games = read_games(file, &num_games);
+      fclose(file);
+    }
+    MPI_Barrier(MPI_COMM_WORLD);
   }
   if (my_rank == 0) {
     double time_end = MPI_Wtime();

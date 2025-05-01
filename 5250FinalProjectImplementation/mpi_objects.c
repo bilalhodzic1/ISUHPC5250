@@ -1,3 +1,5 @@
+#include "csvutils.h"
+#include "mpi.h"
 #include "per_engine.h"
 #include <stdlib.h>
 
@@ -23,7 +25,7 @@ MPI_Datatype create_stat_object() {
   displacements[11] = offsetof(stat_agg_t, mins_agg);
   displacements[12] = offsetof(stat_agg_t, player_id);
 
-  MPI_Type_create_struct(12, block_lengths, displacements, types,
+  MPI_Type_create_struct(13, block_lengths, displacements, types,
                          &mpi_stat_agg);
   MPI_Type_commit(&mpi_stat_agg);
 
@@ -44,6 +46,40 @@ MPI_Datatype create_player_per_object() {
   MPI_Type_commit(&mpi_per_object);
 
   return mpi_per_object;
+}
+
+MPI_Datatype create_game_object() {
+  MPI_Datatype mpi_game;
+  int block_lengths[18] = {1, 1, 1, 3, 1, 1, 1, 1, 1,
+                           1, 1, 1, 1, 1, 1, 1, 1, 1};
+  MPI_Aint displacements[18];
+  MPI_Datatype types[18] = {MPI_INT, MPI_INT, MPI_INT, MPI_CHAR, MPI_INT,
+                            MPI_INT, MPI_INT, MPI_INT, MPI_INT,  MPI_INT,
+                            MPI_INT, MPI_INT, MPI_INT, MPI_INT,  MPI_FLOAT,
+                            MPI_INT, MPI_INT, MPI_INT};
+  displacements[0] = offsetof(game_t, player_id);
+  displacements[1] = offsetof(game_t, game_id);
+  displacements[2] = offsetof(game_t, season);
+  displacements[3] = offsetof(game_t, team_abbreviation);
+  displacements[4] = offsetof(game_t, pts);
+  displacements[5] = offsetof(game_t, reb);
+  displacements[6] = offsetof(game_t, ast);
+  displacements[7] = offsetof(game_t, stl);
+  displacements[8] = offsetof(game_t, blk);
+  displacements[9] = offsetof(game_t, turnover);
+  displacements[10] = offsetof(game_t, fgm);
+  displacements[11] = offsetof(game_t, fga);
+  displacements[12] = offsetof(game_t, ftm);
+  displacements[13] = offsetof(game_t, fta);
+  displacements[14] = offsetof(game_t, min);
+  displacements[15] = offsetof(game_t, pf);
+  displacements[16] = offsetof(game_t, oreb);
+  displacements[17] = offsetof(game_t, dreb);
+
+  MPI_Type_create_struct(18, block_lengths, displacements, types, &mpi_game);
+  MPI_Type_commit(&mpi_game);
+
+  return mpi_game;
 }
 
 void send_stat_agg(stat_agg_t *data, int dest_rank, MPI_Datatype mpi_struct) {
