@@ -1,5 +1,5 @@
-CC  = gcc
-FFLAGS = -O3 -Wall
+CC  = mpicc
+FFLAGS = -O3 -Wall -std=c99
 OBJECTS = main.o \
 		  split_string.o \
 		  read_games.o \
