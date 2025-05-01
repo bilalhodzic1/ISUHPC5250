@@ -8,7 +8,7 @@ typedef struct game {
   int player_id;
   int game_id;
   int season;
-  char team_abbreviation[3];
+  char team_abbreviation[4];
   int pts;
   int reb;
   int ast;

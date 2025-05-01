@@ -50,7 +50,7 @@ MPI_Datatype create_player_per_object() {
 
 MPI_Datatype create_game_object() {
   MPI_Datatype mpi_game;
-  int block_lengths[18] = {1, 1, 1, 3, 1, 1, 1, 1, 1,
+  int block_lengths[18] = {1, 1, 1, 4, 1, 1, 1, 1, 1,
                            1, 1, 1, 1, 1, 1, 1, 1, 1};
   MPI_Aint displacements[18];
   MPI_Datatype types[18] = {MPI_INT, MPI_INT, MPI_INT, MPI_CHAR, MPI_INT,

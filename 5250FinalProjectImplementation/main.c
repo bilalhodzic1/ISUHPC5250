@@ -81,11 +81,14 @@ int main(int argc, char *argv[]) {
     } else {
       MPI_Scatterv(games, sendcounts, process_displacements, mpi_game_obj,
                    local_games, local_count, mpi_game_obj, 0, MPI_COMM_WORLD);
-      for (int i = 0; i < local_count; i++) {
-        if (!(i + 1 < local_count)) {
-          printf("Game id: %d\n", local_games[i].game_id);
-          printf("Process %d, count: %d, total games %d\n", my_rank, i,
-                 num_games);
+      HashItem *local_player_agg_map =
+          compute_season_aggregates(local_games, local_count);
+      HashItem *current_item, *tmp;
+      // Iterate through hashmap
+      HASH_ITER(hh, local_player_agg_map, current_item, tmp) {
+        if (current_item->value->player_id == 237) {
+          printf("Process %d, Player Id: %d, local pf agg %d\n", my_rank,
+                 current_item->value->player_id, current_item->value->pf_agg);
         }
       }
     }
