@@ -108,8 +108,8 @@ int main(int argc, char *argv[]) {
                 MPI_COMM_WORLD);
     if (my_rank == 0) {
       int actual_player_count = 0;
+      HashItem *complete_player_agg_map = NULL;
       for (int i = 0; i < total_players; i++) {
-        HashItem *complete_player_agg_map = NULL;
         HashItem *item =
             find(global_players_array[i].player_id, &complete_player_agg_map);
         if (item) {
@@ -134,6 +134,23 @@ int main(int argc, char *argv[]) {
                  &complete_player_agg_map);
         }
       }
+      HashItem *current_item, *tmp;
+      player_and_agg_t *complete_player_agg_array =
+          malloc(sizeof(player_and_agg_t) * actual_player_count);
+      int i = 0;
+      HASH_ITER(hh, complete_player_agg_map, current_item, tmp) {
+        complete_player_agg_array[i].player_agg_stats = *(current_item->value);
+        complete_player_agg_array[i].player_id = current_item->key;
+        i++;
+      }
+      for (i = 0; i < actual_player_count; i++) {
+        if (complete_player_agg_array[i].player_id == 237) {
+          printf("Player ID: %d, PF: %d\n",
+                 complete_player_agg_array[i].player_id,
+                 complete_player_agg_array[i].player_agg_stats.pf_agg);
+        }
+      }
+      
     }
   }
   MPI_Barrier(MPI_COMM_WORLD);
