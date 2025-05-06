@@ -44,12 +44,11 @@ int main(int argc, char *argv[]) {
     int num_players;
     per_object_t *player_pers =
         compute_player_pers(&player_agg_map, &num_players);
-    int i;
-    for (i = 0; i < num_players; i++) {
-      if (player_pers[i].player_id == 237) {
-        printf("Player ID: %d, Player PER: %lf\n", player_pers[i].player_id,
-               player_pers[i].per);
-      }
+    printf("%-12s %12s\n", "Player ID", "Player PER"); // Header
+    printf("------------ ------------\n");             // Separator
+
+    for (int i = 0; i < num_players; i++) {
+      printf("%12d %12.2f\n", player_pers[i].player_id, player_pers[i].per);
     }
   } else {
     FILE *file;
@@ -61,32 +60,24 @@ int main(int argc, char *argv[]) {
       fclose(file);
     }
     MPI_Barrier(MPI_COMM_WORLD);
-    MPI_Bcast(&num_games, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    broadcast_game_count(&num_games);
     int *sendcounts = (int *)malloc(comm_sz * sizeof(int));
     int *process_displacements = (int *)malloc(comm_sz * sizeof(int));
 
-    int chunk_size = num_games / (comm_sz - 1);
-    int remainder = num_games % (comm_sz - 1);
-    sendcounts[0] = 0;
-    process_displacements[0] = 0;
-    for (int i = 1; i < comm_sz; i++) {
-      sendcounts[i] = chunk_size + (i <= remainder ? 1 : 0);
-      process_displacements[i] =
-          (i > 0) ? process_displacements[i - 1] + sendcounts[i - 1] : 0;
-    }
+    compute_sendcounts_and_displacements(sendcounts, process_displacements,
+                                         num_games, comm_sz);
 
     int local_count = sendcounts[my_rank];
     game_t *local_games = (game_t *)malloc(local_count * sizeof(game_t));
+    stat_agg_t *local_player_agg_array = NULL;
     if (my_rank == 0) {
-      MPI_Scatterv(games, sendcounts, process_displacements, mpi_game_obj,
-                   MPI_IN_PLACE, 0, mpi_game_obj, 0, MPI_COMM_WORLD);
+      scatter_game_array(my_rank, sendcounts, process_displacements,
+                         mpi_game_obj, NULL, local_count, games);
     } else {
-      MPI_Scatterv(games, sendcounts, process_displacements, mpi_game_obj,
-                   local_games, local_count, mpi_game_obj, 0, MPI_COMM_WORLD);
-      HashItem *local_player_agg_map =
-          compute_season_aggregates(local_games, local_count);
-      HashItem *current_item, *tmp;
-      HASH_ITER(hh, local_player_agg_map, current_item, tmp) {}
+      scatter_game_array(my_rank, sendcounts, process_displacements,
+                         mpi_game_obj, local_games, local_count, games);
+      int player_count;
+      compute_local_player_agg_array(local_games, local_count, &player_count);
     }
   }
   MPI_Barrier(MPI_COMM_WORLD);

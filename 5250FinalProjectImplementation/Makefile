@@ -6,7 +6,9 @@ OBJECTS = main.o \
 		  compute_season_aggregates.o \
 		  hashmap.o \
 		  compute_player_pers.o \
-		  mpi_objects.o
+		  mpi_objects.o \
+		  mpi_functions.o \
+		  compute_local_player_agg_array.o
 
 LFLAGS =
 
