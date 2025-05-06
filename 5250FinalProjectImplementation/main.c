@@ -44,12 +44,6 @@ int main(int argc, char *argv[]) {
     int num_players;
     per_object_t *player_pers =
         compute_player_pers(&player_agg_map, &num_players);
-    printf("%-12s %12s\n", "Player ID", "Player PER"); // Header
-    printf("------------ ------------\n");             // Separator
-
-    for (int i = 0; i < num_players; i++) {
-      printf("%12d %12.2f\n", player_pers[i].player_id, player_pers[i].per);
-    }
   } else {
     FILE *file;
     int num_games;
