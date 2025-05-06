@@ -33,6 +33,7 @@ void compute_sendcounts_and_displacements(int *sendcounts,
 void scatter_game_array(int my_rank, int *sendcounts,
                         int *process_displacements, MPI_Datatype mpi_game_obj,
                         game_t *local_games, int local_count, game_t *games);
-stat_agg_t *compute_local_player_agg_array(game_t *local_games, int local_count,
-                                           int *player_count);
+player_and_agg_t *compute_local_player_agg_array(game_t *local_games,
+                                                 int local_count,
+                                                 int *player_count);
 #endif

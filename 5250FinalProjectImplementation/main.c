@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
 
     int local_count = sendcounts[my_rank];
     game_t *local_games = (game_t *)malloc(local_count * sizeof(game_t));
-    stat_agg_t *local_player_agg_array = NULL;
+    player_and_agg_t *local_player_agg_array = NULL;
     if (my_rank == 0) {
       scatter_game_array(my_rank, sendcounts, process_displacements,
                          mpi_game_obj, NULL, local_count, games);
@@ -77,7 +77,12 @@ int main(int argc, char *argv[]) {
       scatter_game_array(my_rank, sendcounts, process_displacements,
                          mpi_game_obj, local_games, local_count, games);
       int player_count;
-      compute_local_player_agg_array(local_games, local_count, &player_count);
+      local_player_agg_array = compute_local_player_agg_array(
+          local_games, local_count, &player_count);
+    }
+    if (my_rank == 0) {
+
+    } else {
     }
   }
   MPI_Barrier(MPI_COMM_WORLD);
