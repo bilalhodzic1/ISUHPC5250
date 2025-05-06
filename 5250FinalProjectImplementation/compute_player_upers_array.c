@@ -1,7 +1,10 @@
 #include "per_engine.h"
 per_object_t *
 compute_player_upers_array(player_and_agg_t *player_and_aggs_array,
-                           int num_players, int *total_uper) {
+                           int num_players, double *total_uper) {
+  if (num_players == 0) {
+    return NULL;
+  }
   per_object_t *final_upers =
       (per_object_t *)malloc(sizeof(per_object_t) * num_players);
   *total_uper = 0;

@@ -167,10 +167,21 @@ int main(int argc, char *argv[]) {
                    local_final_player_aggs, local_player_final_count,
                    mpi_player_and_agg_obj, 0, MPI_COMM_WORLD);
     }
+    double total_uper = 0.0;
+    per_object_t *local_uper_array = compute_player_upers_array(
+        local_final_player_aggs, local_player_final_count, &total_uper);
+    double global_total_uper = 0.0;
+    MPI_Reduce(&total_uper, &global_total_uper, 1, MPI_DOUBLE, MPI_SUM, 0,
+               MPI_COMM_WORLD);
+
+    double global_average_uper = 0.0;
+    if (my_rank == 0) {
+      global_average_uper = global_total_uper / comm_sz;
+    }
+    MPI_Bcast(&global_average_uper, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     for (int i = 0; i < local_player_final_count; i++) {
-      printf("PROCESS %d, PlayerID: %d player pf %d\n", my_rank,
-             local_final_player_aggs[i].player_id,
-             local_final_player_aggs[i].player_agg_stats.pf_agg);
+      local_uper_array[i].per =
+          local_uper_array[i].uper * (15.0 / global_average_uper);
     }
   }
   MPI_Barrier(MPI_COMM_WORLD);

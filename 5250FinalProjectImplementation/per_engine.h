@@ -39,5 +39,5 @@ player_and_agg_t *compute_local_player_agg_array(game_t *local_games,
                                                  int *player_count);
 per_object_t *
 compute_player_upers_array(player_and_agg_t *player_and_aggs_array,
-                           int num_players, int *total_uper);
+                           int num_players, double *total_uper);
 #endif
