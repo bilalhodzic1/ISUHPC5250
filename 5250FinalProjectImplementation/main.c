@@ -154,7 +154,7 @@ int main(int argc, char *argv[]) {
     compute_sendcounts_and_displacements(final_scatter_sendcounts,
                                          final_scatter_process_displacements,
                                          actual_player_count, comm_sz);
-    int local_player_final_count = sendcounts[my_rank];
+    int local_player_final_count = final_scatter_sendcounts[my_rank];
     player_and_agg_t *local_final_player_aggs = (player_and_agg_t *)malloc(
         local_player_final_count * sizeof(player_and_agg_t));
     if (my_rank == 0) {
@@ -166,6 +166,11 @@ int main(int argc, char *argv[]) {
                    final_scatter_process_displacements, mpi_player_and_agg_obj,
                    local_final_player_aggs, local_player_final_count,
                    mpi_player_and_agg_obj, 0, MPI_COMM_WORLD);
+    }
+    for (int i = 0; i < local_player_final_count; i++) {
+      printf("PROCESS %d, PlayerID: %d player pf %d\n", my_rank,
+             local_final_player_aggs[i].player_id,
+             local_final_player_aggs[i].player_agg_stats.pf_agg);
     }
   }
   MPI_Barrier(MPI_COMM_WORLD);

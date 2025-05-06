@@ -8,7 +8,9 @@ OBJECTS = main.o \
 		  compute_player_pers.o \
 		  mpi_objects.o \
 		  mpi_functions.o \
-		  compute_local_player_agg_array.o
+		  compute_local_player_agg_array.o \
+		  compute_player_upers_array.o \
+		  get_unadjusted_per.o
 
 LFLAGS =
 

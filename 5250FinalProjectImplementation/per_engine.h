@@ -14,6 +14,7 @@ typedef struct player_and_agg {
 } player_and_agg_t;
 
 HashItem *compute_season_aggregates(game_t *games, int num_games);
+double get_unadjusted_per(stat_agg_t player_aggs);
 per_object_t *compute_player_pers(HashItem **player_agg_hashmap,
                                   int *num_players_ptr);
 MPI_Datatype create_stat_object();
@@ -36,4 +37,7 @@ void scatter_game_array(int my_rank, int *sendcounts,
 player_and_agg_t *compute_local_player_agg_array(game_t *local_games,
                                                  int local_count,
                                                  int *player_count);
+per_object_t *
+compute_player_upers_array(player_and_agg_t *player_and_aggs_array,
+                           int num_players, int *total_uper);
 #endif
