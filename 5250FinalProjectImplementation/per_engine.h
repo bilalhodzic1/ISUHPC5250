@@ -29,7 +29,7 @@ void recv_player_per(per_object_t *data, int source_rank,
 void broadcast_game_count(int *num_games);
 void compute_sendcounts_and_displacements(int *sendcounts,
                                           int *process_displacements,
-                                          int num_games, int comm_sz);
+                                          int num_item, int comm_sz);
 void scatter_game_array(int my_rank, int *sendcounts,
                         int *process_displacements, MPI_Datatype mpi_game_obj,
                         game_t *local_games, int local_count, game_t *games);

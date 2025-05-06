@@ -106,8 +106,10 @@ int main(int argc, char *argv[]) {
                 global_players_array, player_counts,
                 gather_player_displacements, mpi_player_and_agg_obj, 0,
                 MPI_COMM_WORLD);
+    player_and_agg_t *complete_player_agg_array;
+    int actual_player_count;
     if (my_rank == 0) {
-      int actual_player_count = 0;
+      actual_player_count = 0;
       HashItem *complete_player_agg_map = NULL;
       for (int i = 0; i < total_players; i++) {
         HashItem *item =
@@ -135,7 +137,7 @@ int main(int argc, char *argv[]) {
         }
       }
       HashItem *current_item, *tmp;
-      player_and_agg_t *complete_player_agg_array =
+      complete_player_agg_array =
           malloc(sizeof(player_and_agg_t) * actual_player_count);
       int i = 0;
       HASH_ITER(hh, complete_player_agg_map, current_item, tmp) {
@@ -143,14 +145,27 @@ int main(int argc, char *argv[]) {
         complete_player_agg_array[i].player_id = current_item->key;
         i++;
       }
-      for (i = 0; i < actual_player_count; i++) {
-        if (complete_player_agg_array[i].player_id == 237) {
-          printf("Player ID: %d, PF: %d\n",
-                 complete_player_agg_array[i].player_id,
-                 complete_player_agg_array[i].player_agg_stats.pf_agg);
-        }
-      }
-      
+    }
+    MPI_Bcast(&actual_player_count, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    int *final_scatter_sendcounts = (int *)malloc(comm_sz * sizeof(int));
+    int *final_scatter_process_displacements =
+        (int *)malloc(comm_sz * sizeof(int));
+
+    compute_sendcounts_and_displacements(final_scatter_sendcounts,
+                                         final_scatter_process_displacements,
+                                         actual_player_count, comm_sz);
+    int local_player_final_count = sendcounts[my_rank];
+    player_and_agg_t *local_final_player_aggs = (player_and_agg_t *)malloc(
+        local_player_final_count * sizeof(player_and_agg_t));
+    if (my_rank == 0) {
+      MPI_Scatterv(complete_player_agg_array, final_scatter_sendcounts,
+                   final_scatter_process_displacements, mpi_player_and_agg_obj,
+                   MPI_IN_PLACE, 0, mpi_player_and_agg_obj, 0, MPI_COMM_WORLD);
+    } else {
+      MPI_Scatterv(complete_player_agg_array, final_scatter_sendcounts,
+                   final_scatter_process_displacements, mpi_player_and_agg_obj,
+                   local_final_player_aggs, local_player_final_count,
+                   mpi_player_and_agg_obj, 0, MPI_COMM_WORLD);
     }
   }
   MPI_Barrier(MPI_COMM_WORLD);

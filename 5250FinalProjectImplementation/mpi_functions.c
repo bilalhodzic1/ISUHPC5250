@@ -7,9 +7,9 @@ void broadcast_game_count(int *num_games) {
 
 void compute_sendcounts_and_displacements(int *sendcounts,
                                           int *process_displacements,
-                                          int num_games, int comm_sz) {
-  int chunk_size = num_games / (comm_sz - 1);
-  int remainder = num_games % (comm_sz - 1);
+                                          int num_item, int comm_sz) {
+  int chunk_size = num_item / (comm_sz - 1);
+  int remainder = num_item % (comm_sz - 1);
   sendcounts[0] = 0;
   process_displacements[0] = 0;
   for (int i = 1; i < comm_sz; i++) {
