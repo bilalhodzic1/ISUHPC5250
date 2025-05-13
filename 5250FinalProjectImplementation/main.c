@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
     int local_count = sendcounts[my_rank];
     game_t *local_games = malloc(local_count * sizeof(game_t));
     player_and_agg_t *local_player_agg_array = NULL;
-    int player_count;
+    int player_count = 0;
     MPI_File fh;
     MPI_File_open(MPI_COMM_WORLD, "1.bin", MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
     if (my_rank > 0 && local_count > 0) {
@@ -82,17 +82,8 @@ int main(int argc, char *argv[]) {
 
       global_players_array = malloc(total_players * sizeof(player_and_agg_t));
     }
-    void *sendbuf = NULL;
-    int sendcount = 0;
 
-    if (my_rank > 0) {
-      sendbuf = local_player_agg_array;
-      sendcount = player_count;
-    } else {
-      sendbuf = NULL;
-      sendcount = 0;
-    }
-    MPI_Gatherv(sendbuf, sendcount, mpi_player_and_agg_obj,
+    MPI_Gatherv(local_player_agg_array, player_count, mpi_player_and_agg_obj,
                 global_players_array, player_counts,
                 gather_player_displacements, mpi_player_and_agg_obj, 0,
                 MPI_COMM_WORLD);
