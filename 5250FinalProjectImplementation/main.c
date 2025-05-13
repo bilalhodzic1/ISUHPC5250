@@ -82,7 +82,17 @@ int main(int argc, char *argv[]) {
 
       global_players_array = malloc(total_players * sizeof(player_and_agg_t));
     }
-    MPI_Gatherv(local_player_agg_array, player_count, mpi_player_and_agg_obj,
+    void *sendbuf = NULL;
+    int sendcount = 0;
+
+    if (my_rank > 0) {
+      sendbuf = local_player_agg_array;
+      sendcount = player_count;
+    } else {
+      sendbuf = NULL;
+      sendcount = 0;
+    }
+    MPI_Gatherv(sendbuf, sendcount, mpi_player_and_agg_obj,
                 global_players_array, player_counts,
                 gather_player_displacements, mpi_player_and_agg_obj, 0,
                 MPI_COMM_WORLD);
