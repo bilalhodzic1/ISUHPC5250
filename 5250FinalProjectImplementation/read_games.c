@@ -41,23 +41,15 @@ game_t parse_game_line(char **string_array) {
  * @return An array of game_t structs containing the parsed game data.
  */
 game_t *read_games(FILE *file, int *num_games) {
-  char *line = NULL;
-  char delimiter[] = ",";
-  size_t len = 0;
-  ssize_t read;
-  game_t *game_stat_lines = NULL;
-  int first_line = 1;
-  *num_games = 0;
-  while ((read = getline(&line, &len, file)) != -1) {
-    if (first_line) {
-      first_line = 0;
-      continue;
-    }
-    int num_tokens;
-    char **string_array = split_string(line, delimiter, &num_tokens);
-    *num_games += 1;
-    game_stat_lines = realloc(game_stat_lines, *num_games * sizeof(game_t));
-    game_stat_lines[*num_games - 1] = parse_game_line(string_array);
-  }
-  return game_stat_lines;
+  fseek(file, 0, SEEK_END);
+  long filesize = ftell(file);
+  rewind(file);
+
+  size_t record_size = sizeof(game_t);
+  *num_games = filesize / record_size;
+
+  game_t *records = malloc(*num_games * record_size);
+
+  fread(records, record_size, *num_games, file);
+  return records;
 }

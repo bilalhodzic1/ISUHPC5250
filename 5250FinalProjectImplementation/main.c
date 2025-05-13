@@ -1,21 +1,3 @@
-/*
-OUTLINE:
-
-READ CSV into data rows for processing
-    CSV is ordered by season/player
-
-Compute game PER using simplified formula
-    Maybe I will extend this im not sure
-Get game_id player_id and PER from this
-
-Compute in parallel the UPER for a player in each season
-    UPER is composed of many aggregate stats
-    Should be possible to compute these in parallel (About 2 million total data
-points) How to do this with MPI to maximize parallelization? Is this even a good
-idea Wait for all seasons to be computed Separate by season to get num over 15
-UPER per season Determin scaling factor Go through each UPER and multiple the
-scalaing factor
-*/
 #include "csvutils.h"
 #include "hashmap.h"
 #include "mpi.h"
@@ -36,7 +18,7 @@ int main(int argc, char *argv[]) {
   }
   if (comm_sz == 1) {
     // Serial implementation:
-    FILE *file = fopen("1.csv", "r");
+    FILE *file = fopen("1.bin", "rb");
     int num_games;
     game_t *games = read_games(file, &num_games);
     fclose(file);
@@ -45,35 +27,45 @@ int main(int argc, char *argv[]) {
     per_object_t *player_pers =
         compute_player_pers(&player_agg_map, &num_players);
   } else {
-    FILE *file;
-    int num_games;
-    game_t *games;
-    if (my_rank == 0) {
-      file = fopen("1.csv", "r");
-      games = read_games(file, &num_games);
-      fclose(file);
-    }
-    MPI_Barrier(MPI_COMM_WORLD);
-    broadcast_game_count(&num_games);
-    int *sendcounts = (int *)malloc(comm_sz * sizeof(int));
-    int *process_displacements = (int *)malloc(comm_sz * sizeof(int));
+    int num_games = 0;
+    int record_size = sizeof(game_t);
 
+    if (my_rank == 0) {
+      FILE *file = fopen("1.bin", "rb");
+      fseek(file, 0, SEEK_END);
+      long filesize = ftell(file);
+      fclose(file);
+      num_games = filesize / record_size;
+    }
+
+    broadcast_game_count(&num_games);
+
+    int *sendcounts = malloc(comm_sz * sizeof(int));
+    int *process_displacements = malloc(comm_sz * sizeof(int));
     compute_sendcounts_and_displacements(sendcounts, process_displacements,
                                          num_games, comm_sz);
-
     int local_count = sendcounts[my_rank];
-    game_t *local_games = (game_t *)malloc(local_count * sizeof(game_t));
+    game_t *local_games = malloc(local_count * sizeof(game_t));
     player_and_agg_t *local_player_agg_array = NULL;
     int player_count;
-    if (my_rank == 0) {
-      scatter_game_array(my_rank, sendcounts, process_displacements,
-                         mpi_game_obj, NULL, local_count, games);
-    } else {
-      scatter_game_array(my_rank, sendcounts, process_displacements,
-                         mpi_game_obj, local_games, local_count, games);
+
+    if (my_rank > 0 && local_count > 0) {
+      MPI_File fh;
+      MPI_File_open(MPI_COMM_WORLD, "1.bin", MPI_MODE_RDONLY, MPI_INFO_NULL,
+                    &fh);
+
+      MPI_Offset offset_bytes =
+          (MPI_Offset)process_displacements[my_rank] * record_size;
+
+      MPI_File_read_at(fh, offset_bytes, local_games, local_count, mpi_game_obj,
+                       MPI_STATUS_IGNORE);
+
+      MPI_File_close(&fh);
+
       local_player_agg_array = compute_local_player_agg_array(
           local_games, local_count, &player_count);
     }
+
     MPI_Barrier(MPI_COMM_WORLD);
     int *player_counts = NULL;
     if (my_rank == 0) {

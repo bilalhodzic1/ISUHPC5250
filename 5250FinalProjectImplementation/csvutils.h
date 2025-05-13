@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
+#pragma pack(push, 1)
 typedef struct game {
   int player_id;
   int game_id;
@@ -25,7 +26,7 @@ typedef struct game {
   int oreb;
   int dreb;
 } game_t;
-
+#pragma pack(pop)
 game_t *read_games(FILE *file, int *num_games);
 
 char **split_string(char *str, char *delimiter, int *num_tokens);
