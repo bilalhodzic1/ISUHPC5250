@@ -34,6 +34,7 @@ int main(int argc, char *argv[]) {
       FILE *file = fopen("1.bin", "rb");
       fseek(file, 0, SEEK_END);
       long filesize = ftell(file);
+      printf("filesize : %ld\n", filesize);
       fclose(file);
       num_games = filesize / record_size;
     }
@@ -48,24 +49,20 @@ int main(int argc, char *argv[]) {
     game_t *local_games = malloc(local_count * sizeof(game_t));
     player_and_agg_t *local_player_agg_array = NULL;
     int player_count;
-
+    MPI_File fh;
+    MPI_File_open(MPI_COMM_WORLD, "1.bin", MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
     if (my_rank > 0 && local_count > 0) {
-      MPI_File fh;
-      MPI_File_open(MPI_COMM_WORLD, "1.bin", MPI_MODE_RDONLY, MPI_INFO_NULL,
-                    &fh);
-
       MPI_Offset offset_bytes =
           (MPI_Offset)process_displacements[my_rank] * record_size;
 
       MPI_File_read_at(fh, offset_bytes, local_games, local_count, mpi_game_obj,
                        MPI_STATUS_IGNORE);
-
-      MPI_File_close(&fh);
+      printf("My rank:%d , local_count %d\n", my_rank, local_count);
 
       local_player_agg_array = compute_local_player_agg_array(
           local_games, local_count, &player_count);
     }
-
+    MPI_File_close(&fh);
     MPI_Barrier(MPI_COMM_WORLD);
     int *player_counts = NULL;
     if (my_rank == 0) {
