@@ -1,8 +1,12 @@
 #include "csvutils.h"
 #include "mpi.h"
 #include "per_engine.h"
-#include <stdlib.h>
 
+/**
+ * Create a MPI_Datatype definition for a stat agg object
+ *
+ * @return the MPI_Datatype for a stat_agg_t
+ */
 MPI_Datatype create_stat_object() {
   MPI_Datatype mpi_stat_agg;
   int block_lengths[13] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
@@ -32,6 +36,11 @@ MPI_Datatype create_stat_object() {
   return mpi_stat_agg;
 }
 
+/**
+ * Create a MPI_Datatype definition for a per object
+ *
+ * @return the MPI_Datatype for a per_object_t
+ */
 MPI_Datatype create_player_per_object() {
   MPI_Datatype mpi_per_object;
   int block_lengths[3] = {1, 1, 1};
@@ -48,6 +57,11 @@ MPI_Datatype create_player_per_object() {
   return mpi_per_object;
 }
 
+/**
+ * Create a MPI_Datatype definition for game object
+ *
+ * @return the MPI_Datatype for a game_t
+ */
 MPI_Datatype create_game_object() {
   MPI_Datatype mpi_game;
   int block_lengths[18] = {1, 1, 1, 4, 1, 1, 1, 1, 1,
@@ -82,6 +96,12 @@ MPI_Datatype create_game_object() {
   return mpi_game;
 }
 
+/**
+ * Create a MPI_Datatype definition for a player agg object
+ *
+ * @param mpi_stat_agg_obj MPI_Datatype for stat_agg_t object
+ * @return the MPI_Datatype for a player_and_agg_t
+ */
 MPI_Datatype create_player_stat_and_agg_object(MPI_Datatype mpi_stat_agg_obj) {
   MPI_Datatype mpi_player_stat_and_agg_obj;
   int block_lengths[2] = {1, 1};
@@ -97,19 +117,48 @@ MPI_Datatype create_player_stat_and_agg_object(MPI_Datatype mpi_stat_agg_obj) {
   return mpi_player_stat_and_agg_obj;
 }
 
+/**
+ * Send a stat_agg with MPI
+ *
+ * @param data data to send
+ * @param dest_rank rank to send to
+ * @param mpi_struct MPI_Datatype for stat_agg_t
+ */
 void send_stat_agg(stat_agg_t *data, int dest_rank, MPI_Datatype mpi_struct) {
   MPI_Send(data, 1, mpi_struct, dest_rank, 0, MPI_COMM_WORLD);
 }
 
+/**
+ * Receive a stat agg with mpi
+ *
+ * @param data pointer to store data
+ * @param source_rank rank to receive from
+ * @param mpi_struct MPI_Datatype for stat_agg_t
+ */
 void recv_stat_agg(stat_agg_t *data, int source_rank, MPI_Datatype mpi_struct) {
   MPI_Recv(data, 1, mpi_struct, source_rank, 0, MPI_COMM_WORLD,
            MPI_STATUS_IGNORE);
 }
 
+/**
+ * Send a player per with MPI
+ *
+ * @param data data to send
+ * @param dest_rank rank to send to
+ * @param mpi_struct MPI_Datatype for per_object_t
+ */
 void send_player_per(per_object_t *data, int dest_rank,
                      MPI_Datatype mpi_struct) {
   MPI_Send(data, 1, mpi_struct, dest_rank, 0, MPI_COMM_WORLD);
 }
+
+/**
+ * Receive a per_object with MPI
+ *
+ * @param data pointer to where to store per_object_t received
+ * @param source_rank rank to receive from
+ * @param mpi_struct MPI_Datatype for per_object_t
+ */
 void recv_player_per(per_object_t *data, int source_rank,
                      MPI_Datatype mpi_struct) {
   MPI_Recv(data, 1, mpi_struct, source_rank, 0, MPI_COMM_WORLD,

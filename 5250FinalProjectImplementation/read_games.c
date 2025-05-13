@@ -54,6 +54,13 @@ game_t *read_games(FILE *file, int *num_games) {
   return records;
 }
 
+/**
+ * Get the number of games in a file
+ *
+ * @param record_size size of each record in bytes
+ * @param num_games A pointer to an integer that will be set to the number of
+ * games read.
+ */
 void get_num_games(size_t record_size, int *num_games) {
   FILE *file = fopen("1.bin", "rb");
   fseek(file, 0, SEEK_END);
