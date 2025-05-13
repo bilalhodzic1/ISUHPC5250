@@ -12,7 +12,7 @@ OBJECTS = main.o \
 		  compute_player_upers_array.o \
 		  get_unadjusted_per.o \
 		  adjust_uper_array.o \
-		  join_player_aggs_to_map.c
+		  join_player_aggs_to_map.o
 
 LFLAGS =
 
