@@ -34,7 +34,6 @@ int main(int argc, char *argv[]) {
       FILE *file = fopen("1.bin", "rb");
       fseek(file, 0, SEEK_END);
       long filesize = ftell(file);
-      printf("filesize : %ld\n", filesize);
       fclose(file);
       num_games = filesize / record_size;
     }
@@ -57,8 +56,6 @@ int main(int argc, char *argv[]) {
 
       MPI_File_read_at(fh, offset_bytes, local_games, local_count, mpi_game_obj,
                        MPI_STATUS_IGNORE);
-      printf("My rank:%d , local_count %d\n", my_rank, local_count);
-
       local_player_agg_array = compute_local_player_agg_array(
           local_games, local_count, &player_count);
     }
