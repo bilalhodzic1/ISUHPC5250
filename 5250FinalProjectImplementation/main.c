@@ -8,7 +8,6 @@ int main(int argc, char *argv[]) {
   MPI_Comm_size(MPI_COMM_WORLD, &comm_sz);
   MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
   MPI_Datatype mpi_stat_agg_obj = create_stat_object();
-  // MPI_Datatype mpi_per_obj = create_player_per_object();
   MPI_Datatype mpi_game_obj = create_game_object();
   MPI_Datatype mpi_player_and_agg_obj =
       create_player_stat_and_agg_object(mpi_stat_agg_obj);
@@ -26,20 +25,19 @@ int main(int argc, char *argv[]) {
     int num_players;
     per_object_t *player_pers =
         compute_player_pers(&player_agg_map, &num_players);
+    int i;
+    for (i = 0; i < num_players; i++) {
+      printf("Player ID: %d, Player PER %lf\n", player_pers[i].player_id,
+             player_pers[i].per);
+    }
   } else {
     int num_games = 0;
     int record_size = sizeof(game_t);
 
     if (my_rank == 0) {
-      FILE *file = fopen("1.bin", "rb");
-      fseek(file, 0, SEEK_END);
-      long filesize = ftell(file);
-      fclose(file);
-      num_games = filesize / record_size;
+      get_num_games(record_size, &num_games);
     }
-
     broadcast_game_count(&num_games);
-
     int *sendcounts = malloc(comm_sz * sizeof(int));
     int *process_displacements = malloc(comm_sz * sizeof(int));
     compute_sendcounts_and_displacements(sendcounts, process_displacements,
@@ -48,86 +46,31 @@ int main(int argc, char *argv[]) {
     game_t *local_games = malloc(local_count * sizeof(game_t));
     player_and_agg_t *local_player_agg_array = NULL;
     int player_count = 0;
-    MPI_File fh;
-    MPI_File_open(MPI_COMM_WORLD, "1.bin", MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
-    if (my_rank > 0 && local_count > 0) {
-      MPI_Offset offset_bytes =
-          (MPI_Offset)process_displacements[my_rank] * record_size;
-
-      MPI_File_read_at(fh, offset_bytes, local_games, local_count, mpi_game_obj,
-                       MPI_STATUS_IGNORE);
-      local_player_agg_array = compute_local_player_agg_array(
-          local_games, local_count, &player_count);
-    }
-    MPI_File_close(&fh);
-    MPI_Barrier(MPI_COMM_WORLD);
+    read_games_parallel(my_rank, local_count, mpi_game_obj, local_games,
+                        process_displacements, record_size, &player_count,
+                        &local_player_agg_array);
     int *player_counts = NULL;
-    if (my_rank == 0) {
-      player_counts = malloc(comm_sz * sizeof(int));
-    }
-    MPI_Gather(&player_count, 1, MPI_INT, player_counts, 1, MPI_INT, 0,
-               MPI_COMM_WORLD);
+    gather_player_counts(my_rank, &player_counts, comm_sz, &player_count);
     int *gather_player_displacements = NULL;
     player_and_agg_t *global_players_array = NULL;
     int total_players = 0;
     if (my_rank == 0) {
-      gather_player_displacements = malloc(comm_sz * sizeof(int));
-      gather_player_displacements[0] = 0;
-      for (int i = 1; i < comm_sz; i++) {
-        gather_player_displacements[i] =
-            gather_player_displacements[i - 1] + player_counts[i - 1];
-      }
-      total_players =
-          gather_player_displacements[comm_sz - 1] + player_counts[comm_sz - 1];
-
-      global_players_array = malloc(total_players * sizeof(player_and_agg_t));
+      compute_gather_player_displacements(&gather_player_displacements, comm_sz,
+                                          &total_players, &global_players_array,
+                                          player_counts);
     }
 
     MPI_Gatherv(local_player_agg_array, player_count, mpi_player_and_agg_obj,
                 global_players_array, player_counts,
                 gather_player_displacements, mpi_player_and_agg_obj, 0,
                 MPI_COMM_WORLD);
-    player_and_agg_t *complete_player_agg_array;
+    player_and_agg_t *complete_player_agg_array = NULL;
     int actual_player_count;
     if (my_rank == 0) {
-      actual_player_count = 0;
-      HashItem *complete_player_agg_map = NULL;
-      for (int i = 0; i < total_players; i++) {
-        HashItem *item =
-            find(global_players_array[i].player_id, &complete_player_agg_map);
-        if (item) {
-          stat_agg_t *existing_stat_agg = item->value;
-          stat_agg_t new_stat_agg = global_players_array[i].player_agg_stats;
-          existing_stat_agg->fgm_agg += new_stat_agg.fgm_agg;
-          existing_stat_agg->ftm_agg += new_stat_agg.ftm_agg;
-          existing_stat_agg->oreb_agg += new_stat_agg.oreb_agg;
-          existing_stat_agg->dreb_agg += new_stat_agg.dreb_agg;
-          existing_stat_agg->ast_agg += new_stat_agg.ast_agg;
-          existing_stat_agg->stl_agg += new_stat_agg.stl_agg;
-          existing_stat_agg->blk_agg += new_stat_agg.blk_agg;
-          existing_stat_agg->fga_agg += new_stat_agg.fga_agg;
-          existing_stat_agg->fta_agg += new_stat_agg.fta_agg;
-          existing_stat_agg->to_agg += new_stat_agg.to_agg;
-          existing_stat_agg->pf_agg += new_stat_agg.pf_agg;
-          existing_stat_agg->mins_agg += new_stat_agg.mins_agg;
-        } else {
-          actual_player_count++;
-          insert(global_players_array[i].player_id,
-                 &(global_players_array[i].player_agg_stats),
-                 &complete_player_agg_map);
-        }
-      }
-      HashItem *current_item, *tmp;
-      complete_player_agg_array =
-          malloc(sizeof(player_and_agg_t) * actual_player_count);
-      int i = 0;
-      HASH_ITER(hh, complete_player_agg_map, current_item, tmp) {
-        complete_player_agg_array[i].player_agg_stats = *(current_item->value);
-        complete_player_agg_array[i].player_id = current_item->key;
-        i++;
-      }
+      join_player_aggs_to_map(&actual_player_count, total_players,
+                              global_players_array, &complete_player_agg_array);
     }
-    MPI_Bcast(&actual_player_count, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    broadcast_actual_player_count(&actual_player_count);
     int *final_scatter_sendcounts = (int *)malloc(comm_sz * sizeof(int));
     int *final_scatter_process_displacements =
         (int *)malloc(comm_sz * sizeof(int));
@@ -138,31 +81,25 @@ int main(int argc, char *argv[]) {
     int local_player_final_count = final_scatter_sendcounts[my_rank];
     player_and_agg_t *local_final_player_aggs = (player_and_agg_t *)malloc(
         local_player_final_count * sizeof(player_and_agg_t));
-    if (my_rank == 0) {
-      MPI_Scatterv(complete_player_agg_array, final_scatter_sendcounts,
-                   final_scatter_process_displacements, mpi_player_and_agg_obj,
-                   MPI_IN_PLACE, 0, mpi_player_and_agg_obj, 0, MPI_COMM_WORLD);
-    } else {
-      MPI_Scatterv(complete_player_agg_array, final_scatter_sendcounts,
-                   final_scatter_process_displacements, mpi_player_and_agg_obj,
-                   local_final_player_aggs, local_player_final_count,
-                   mpi_player_and_agg_obj, 0, MPI_COMM_WORLD);
-    }
+    scatter_player_and_agg(
+        my_rank, complete_player_agg_array, final_scatter_sendcounts,
+        final_scatter_process_displacements, mpi_player_and_agg_obj,
+        local_final_player_aggs, local_player_final_count);
     double total_uper = 0.0;
+    double global_total_uper = 0.0;
+    double global_average_uper = 0.0;
     per_object_t *local_uper_array = compute_player_upers_array(
         local_final_player_aggs, local_player_final_count, &total_uper);
-    double global_total_uper = 0.0;
-    MPI_Reduce(&total_uper, &global_total_uper, 1, MPI_DOUBLE, MPI_SUM, 0,
-               MPI_COMM_WORLD);
-
-    double global_average_uper = 0.0;
-    if (my_rank == 0) {
-      global_average_uper = global_total_uper / comm_sz;
-    }
-    MPI_Bcast(&global_average_uper, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    for (int i = 0; i < local_player_final_count; i++) {
-      local_uper_array[i].per =
-          local_uper_array[i].uper * (15.0 / global_average_uper);
+    get_global_uper_avg(my_rank, &global_average_uper, &total_uper,
+                        &global_total_uper, actual_player_count);
+    adjust_uper_array(local_player_final_count, local_uper_array,
+                      global_average_uper);
+    int i;
+    for (i = 0; i < local_player_final_count; i++) {
+      if (local_uper_array[i].player_id == 237) {
+        printf("(%d,%lf)\n", local_uper_array[i].player_id,
+               local_uper_array[i].per);
+      }
     }
   }
   MPI_Barrier(MPI_COMM_WORLD);

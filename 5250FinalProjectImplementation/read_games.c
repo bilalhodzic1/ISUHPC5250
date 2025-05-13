@@ -53,3 +53,11 @@ game_t *read_games(FILE *file, int *num_games) {
   fread(records, record_size, *num_games, file);
   return records;
 }
+
+void get_num_games(size_t record_size, int *num_games) {
+  FILE *file = fopen("1.bin", "rb");
+  fseek(file, 0, SEEK_END);
+  long filesize = ftell(file);
+  fclose(file);
+  *num_games = filesize / record_size;
+}

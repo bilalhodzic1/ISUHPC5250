@@ -31,4 +31,6 @@ game_t *read_games(FILE *file, int *num_games);
 
 char **split_string(char *str, char *delimiter, int *num_tokens);
 
+void get_num_games(size_t record_size, int *num_games);
+
 #endif

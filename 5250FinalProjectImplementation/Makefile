@@ -10,7 +10,9 @@ OBJECTS = main.o \
 		  mpi_functions.o \
 		  compute_local_player_agg_array.o \
 		  compute_player_upers_array.o \
-		  get_unadjusted_per.o
+		  get_unadjusted_per.o \
+		  adjust_uper_array.o \
+		  join_player_aggs_to_map.c
 
 LFLAGS =
 
@@ -34,3 +36,10 @@ help:
 	@echo " compute_season_aggregates.o"
 	@echo " hashmap.o"
 	@echo " compute_player_pers.o"
+	@echo " mpi_objects.o"
+	@echo " mpi_functions.o"
+	@echo " compute_local_player_agg_array.o"
+	@echo " compute_player_upers_array.o"
+	@echo " get_unadjusted_per.o"
+	@echo " adjust_uper_array.o"
+	@echo " join_player_aggs_to_map.o"
