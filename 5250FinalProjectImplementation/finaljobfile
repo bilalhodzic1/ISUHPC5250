@@ -13,3 +13,6 @@
 
 mpirun -np 1 ./main.exe > output1.data
 mpirun -np 3 ./main.exe > output3.data
+mpirun -np 5 ./main.exe > output5.data
+mpirun -np 9 ./main.exe > output9.data
+mpirun -np 17 ./main.exe > output17.data
