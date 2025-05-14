@@ -95,11 +95,15 @@ int main(int argc, char *argv[]) {
     adjust_uper_array(local_player_final_count, local_uper_array,
                       global_average_uper);
     int i;
-    for (i = 0; i < local_player_final_count; i++) {
-      if (local_uper_array[i].player_id == 237) {
-        printf("(%d,%lf)\n", local_uper_array[i].player_id,
-               local_uper_array[i].per);
+    for (int r = 0; r < comm_sz; r++) {
+      if (r == my_rank) {
+        for (i = 0; i < local_player_final_count; i++) {
+          printf("(%d, %lf)\n", local_uper_array[i].player_id,
+                 local_uper_array[i].per);
+        }
+        fflush(stdout); // Ensure output is flushed
       }
+      MPI_Barrier(MPI_COMM_WORLD); // Synchronize
     }
   }
   MPI_Barrier(MPI_COMM_WORLD);
